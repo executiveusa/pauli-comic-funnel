@@ -32,7 +32,7 @@ const PricingCard = ({ item, index }: PricingCardProps) => {
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"%3E%3Cg fill="none" stroke="%23ffd700" stroke-width="1"%3E%3Cpath d="M30 0v60M0 30h60"/%3E%3C/g%3E%3C/svg%3E')] bg-repeat"></div>
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_30px,rgba(255,215,0,0.1)_30px,rgba(255,215,0,0.1)_32px)]"></div>
       </div>
 
       {/* Crime Scene Tape Effect */}

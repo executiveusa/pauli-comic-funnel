@@ -8,7 +8,7 @@ const PauliFooter = () => {
     <footer className="relative bg-gradient-to-t from-black via-slate-900 to-slate-800 py-16 border-t-4 border-yellow-400">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath d="M0 0L50 50L0 100M50 0L100 50L50 100" stroke="%23ffd700" stroke-width="1" fill="none"/%3E%3C/svg%3E')] bg-repeat"></div>
+        <div className="absolute inset-0 bg-[repeating-conic-gradient(from_0deg_at_50%_50%,transparent_0deg,rgba(255,215,0,0.1)_90deg,transparent_180deg)]"></div>
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">

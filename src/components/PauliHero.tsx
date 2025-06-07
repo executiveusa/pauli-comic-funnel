@@ -8,7 +8,7 @@ const PauliHero = () => {
     <div className="relative overflow-hidden bg-gradient-to-r from-red-900 via-black to-red-900 py-20">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath d="M0 0h100v100H0z" fill="%23000"/%3E%3Cpath d="M20 20h60v60H20z" fill="none" stroke="%23ff0" stroke-width="2"/%3E%3C/svg%3E')] bg-repeat"></div>
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,0,0.1)_10px,rgba(255,255,0,0.1)_20px)]"></div>
       </div>
       
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
