@@ -1,12 +1,11 @@
 
 import { useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import PauliHero from '@/components/PauliHero';
-import PricingCard from '@/components/PricingCard';
-import PauliFooter from '@/components/PauliFooter';
-import { useScrollFX } from '@/hooks/useScrollFX';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { styles } from '@/styles/pauli-styles';
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const pricingItems = [
   {
@@ -44,45 +43,82 @@ const pricingItems = [
 ];
 
 const Index = () => {
-  useScrollFX();
-
   useEffect(() => {
-    document.title = "1111 Pauli's Place — The Menu";
+    document.title = '1111 Pauli's Place — Menu';
+
+    // GSAP 3D and Depth FX
+    gsap.utils.toArray('.menu-card').forEach((card, i) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 80, rotateX: 15, transformPerspective: 800 },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.8,
+          delay: i * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 90%',
+          },
+        }
+      );
+    });
+
+    gsap.to('#pauli-hero', {
+      scale: 1.05,
+      y: -10,
+      duration: 0.5,
+      scrollTrigger: {
+        trigger: '#pauli-hero',
+        scrub: true,
+        start: 'top bottom',
+        end: 'bottom top',
+      },
+    });
   }, []);
 
   return (
-    <div className={styles.container}>
-      <PauliHero />
-      
-      <div className="text-center py-16" id="menu-section">
-        <h1 className={styles.heading}>
-          Welcome to 1111 Pauli's Place
-        </h1>
-        <p className="text-xl md:text-2xl text-[#ffe36e] italic">
-          "Where Code Meets Crime and Every Build is a Heist"
+    <div className="bg-[#1c1b18] text-[#ffe36e] font-[Corleone] px-6 md:px-12 pt-32 pb-20 min-h-screen">
+      <div className="text-center">
+        <img
+          src="/lovable-uploads/780d2c8c-fcf5-4c8c-a2ca-d606c30f7215.png"
+          alt="Pauli Hero Full"
+          className="mx-auto mb-8 drop-shadow-xl rounded-xl max-w-xs w-full h-auto object-contain"
+          id="pauli-hero"
+        />
+        <h1 className={styles.heading}>The Pauli Effect</h1>
+        <p className="text-lg md:text-xl max-w-2xl mx-auto text-neutral-300 italic mb-10">
+          Pricing so smooth it should be illegal. Designed in a jazz club. Delivered by a fugitive.
         </p>
-        
-        <div className="mt-8">
-          <button 
-            data-scrollto="#pricing-section"
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 hover:scale-105"
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+        {pricingItems.map((item, i) => (
+          <div
+            key={item.tier}
+            className="menu-card bg-[#2a2a2a] p-6 rounded-2xl shadow-2xl border border-yellow-500 transition-all duration-300 hover:scale-[1.02]"
+            style={{ transformStyle: 'preserve-3d' }}
           >
-            View The Menu
-          </button>
-        </div>
+            <h2 className={styles.tierTitle}>{item.tier}</h2>
+            <p className={`${styles.tierPrice} text-xl`} style={{ color: item.color }}>{item.price}</p>
+            <p className={styles.tierTarget}>{item.target}</p>
+            <p className={styles.tierOverview}>{item.overview}</p>
+            <button
+              className={`${styles.ctaButton} hover:scale-105 transition-transform w-full`}
+              style={{ backgroundColor: item.color }}
+            >
+              {item.cta}
+            </button>
+          </div>
+        ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-20" id="pricing-section">
-        <div className={styles.grid}>
-          {pricingItems.map((item, index) => (
-            <div key={item.tier} className="pricing-card">
-              <PricingCard item={item} index={index} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <PauliFooter />
+      <footer className={styles.footer}>
+        <p>Made at 1111 Pauli's Place. All pricing tiers come with attitude and espresso foam art.</p>
+        <p className="mt-1">Powered by Hexona Systems · A Fugitive Funnel™</p>
+      </footer>
     </div>
   );
 };
