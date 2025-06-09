@@ -44,7 +44,7 @@ const pricingItems = [
 
 const Index = () => {
   useEffect(() => {
-    document.title = '1111 Pauli's Place — Menu';
+    document.title = '1111 Pauli\'s Place - Menu';
 
     // GSAP 3D and Depth FX
     gsap.utils.toArray('.menu-card').forEach((card, i) => {
