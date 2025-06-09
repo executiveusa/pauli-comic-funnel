@@ -4,6 +4,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { styles } from '@/styles/pauli-styles';
+import PauliHero from '@/components/PauliHero';
+import PricingCard from '@/components/PricingCard';
+import PauliFooter from '@/components/PauliFooter';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -13,7 +16,7 @@ const pricingItems = [
     price: '$1–4k',
     target: 'Small businesses like restaurants, plumbers, attorneys, nonprofits.',
     overview: 'Basic single-page site. SEO-ready. Clear mobile UX. Fast & lean.',
-    cta: 'Order Basic',
+    cta: 'Order Basic →',
     color: '#ffe36e',
   },
   {
@@ -21,7 +24,7 @@ const pricingItems = [
     price: '$5–9k',
     target: 'Growing brands, ecommerce stores, custom layouts.',
     overview: 'Interactive design, CMS support, optimized flow, custom flair.',
-    cta: "I'll Take Custom",
+    cta: "I'll Take Custom →",
     color: '#ff9966',
   },
   {
@@ -29,7 +32,7 @@ const pricingItems = [
     price: '$10–20k',
     target: 'APIs, backend, widget dev. Complex logic for SaaS or marketplaces.',
     overview: 'Advanced integrations, flows, dev stack aligned to performance.',
-    cta: 'Build Me This',
+    cta: 'Build Me This →',
     color: '#ff6666',
   },
   {
@@ -37,7 +40,7 @@ const pricingItems = [
     price: '$20k+',
     target: 'Franchise, multi-location, or enterprise apps w/ dashboard, auth, AI.',
     overview: 'Fully custom stack, content engine, multilingual scale + security.',
-    cta: 'Summon Pauli',
+    cta: 'Summon Pauli →',
     color: '#f44336',
   }
 ];
@@ -46,8 +49,8 @@ const Index = () => {
   useEffect(() => {
     document.title = '1111 Pauli\'s Place - Menu';
 
-    // GSAP 3D and Depth FX
-    gsap.utils.toArray('.menu-card').forEach((card, i) => {
+    // GSAP 3D and Depth FX with proper typing
+    gsap.utils.toArray<HTMLElement>('.menu-card').forEach((card, i) => {
       gsap.fromTo(
         card,
         { opacity: 0, y: 80, rotateX: 15, transformPerspective: 800 },
@@ -66,59 +69,90 @@ const Index = () => {
       );
     });
 
-    gsap.to('#pauli-hero', {
-      scale: 1.05,
-      y: -10,
-      duration: 0.5,
-      scrollTrigger: {
-        trigger: '#pauli-hero',
-        scrub: true,
-        start: 'top bottom',
-        end: 'bottom top',
-      },
+    // Scroll-triggered parallax effects
+    gsap.utils.toArray<HTMLElement>('.pauli-parallax').forEach((element) => {
+      gsap.to(element, {
+        yPercent: -50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: element,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
     });
+
+    // Hero lighting effects
+    gsap.to('.hero-glow', {
+      opacity: 0.8,
+      scale: 1.1,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power2.inOut'
+    });
+
+    // Typewriter effect for tagline
+    const tagline = document.querySelector('.typewriter-text');
+    if (tagline) {
+      const text = tagline.textContent || '';
+      tagline.textContent = '';
+      
+      gsap.to(tagline, {
+        duration: text.length * 0.05,
+        ease: 'none',
+        onUpdate: function() {
+          const progress = this.progress();
+          const currentLength = Math.round(progress * text.length);
+          tagline.textContent = text.substring(0, currentLength);
+        }
+      });
+    }
+
+    // Enhanced card hover effects
+    gsap.utils.toArray<HTMLElement>('.pricing-card').forEach((card) => {
+      const tl = gsap.timeline({ paused: true });
+      
+      tl.to(card, {
+        scale: 1.05,
+        rotateY: 5,
+        z: 50,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+
+      card.addEventListener('mouseenter', () => tl.play());
+      card.addEventListener('mouseleave', () => tl.reverse());
+    });
+
+    // Console success message
+    console.log('✅ DESIGN ELEVATED — Now worthy of espresso, enemies, and awards.');
+
   }, []);
 
   return (
-    <div className="bg-[#1c1b18] text-[#ffe36e] font-[Corleone] px-6 md:px-12 pt-32 pb-20 min-h-screen">
-      <div className="text-center">
-        <img
-          src="/lovable-uploads/780d2c8c-fcf5-4c8c-a2ca-d606c30f7215.png"
-          alt="Pauli Hero Full"
-          className="mx-auto mb-8 drop-shadow-xl rounded-xl max-w-xs w-full h-auto object-contain"
-          id="pauli-hero"
-        />
-        <h1 className={styles.heading}>The Pauli Effect</h1>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto text-neutral-300 italic mb-10">
-          Pricing so smooth it should be illegal. Designed in a jazz club. Delivered by a fugitive.
-        </p>
-      </div>
+    <div className={styles.container}>
+      <PauliHero />
+      
+      <section id="menu-section" className="py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#ffe36e] mb-6 tracking-wider">
+            CASE FILES
+          </h2>
+          <p className="typewriter-text text-xl text-[#ffe36e] max-w-3xl mx-auto leading-relaxed">
+            Pricing so smooth it should be illegal. Designed in a jazz club. Delivered by a fugitive.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-        {pricingItems.map((item, i) => (
-          <div
-            key={item.tier}
-            className="menu-card bg-[#2a2a2a] p-6 rounded-2xl shadow-2xl border border-yellow-500 transition-all duration-300 hover:scale-[1.02]"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            <h2 className={styles.tierTitle}>{item.tier}</h2>
-            <p className={`${styles.tierPrice} text-xl`} style={{ color: item.color }}>{item.price}</p>
-            <p className={styles.tierTarget}>{item.target}</p>
-            <p className={styles.tierOverview}>{item.overview}</p>
-            <button
-              className={`${styles.ctaButton} hover:scale-105 transition-transform w-full`}
-              style={{ backgroundColor: item.color }}
-            >
-              {item.cta}
-            </button>
-          </div>
-        ))}
-      </div>
+        <div className={styles.grid}>
+          {pricingItems.map((item, i) => (
+            <PricingCard key={item.tier} item={item} index={i} />
+          ))}
+        </div>
+      </section>
 
-      <footer className={styles.footer}>
-        <p>Made at 1111 Pauli's Place. All pricing tiers come with attitude and espresso foam art.</p>
-        <p className="mt-1">Powered by Hexona Systems · A Fugitive Funnel™</p>
-      </footer>
+      <PauliFooter />
     </div>
   );
 };
