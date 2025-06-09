@@ -1,0 +1,20 @@
+
+export const styles = {
+  container: 'bg-[#1c1b18] min-h-screen text-[#ffe36e] font-[Corleone] px-4 md:px-6 lg:px-12 pt-24',
+  heading: 'text-center text-4xl sm:text-5xl md:text-6xl font-bold tracking-widest mb-10',
+  grid: 'mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 md:gap-14 px-4',
+  card: 'menu-card p-6 bg-[#2a2a2a] rounded-2xl shadow-xl border border-yellow-500 relative transition-all duration-300 hover:scale-[1.03]',
+  tierTitle: 'text-2xl md:text-3xl mb-2 text-white',
+  tierPrice: 'text-xl font-bold mb-1',
+  tierTarget: 'text-sm italic text-neutral-300 mb-4',
+  tierOverview: 'text-base text-neutral-200 mb-6',
+  ctaButton: 'uppercase tracking-wider font-bold px-4 py-2 rounded text-black hover:opacity-90 text-sm w-full mt-2',
+  pauliImage: 'cursor-pointer hover:drop-shadow-xl transition-all duration-300 mt-12 max-w-xs mx-auto',
+  footer: 'text-center mt-12 text-sm text-neutral-400 pb-10 max-w-xl mx-auto text-balance',
+  heroContainer: 'relative overflow-hidden bg-[#1c1b18] py-20',
+  heroContent: 'relative z-10 max-w-6xl mx-auto px-6 text-center',
+  heroImageWrapper: 'relative group cursor-pointer pauli-parallax',
+  heroTitle: 'text-4xl md:text-6xl font-bold text-[#ffe36e] mb-4 tracking-wider',
+  heroSubtitle: 'text-xl md:text-2xl text-[#ffe36e] mb-6 leading-relaxed',
+  heroButton: 'bg-[#ffe36e] hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105',
+};

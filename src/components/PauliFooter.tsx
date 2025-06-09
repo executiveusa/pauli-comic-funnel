@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { styles } from '@/styles/pauli-styles';
 
 const PauliFooter = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -19,7 +19,7 @@ const PauliFooter = () => {
             <img
               src="/pauli-car.png"
               alt="Pauli's Red Cadillac at 1111 Pauli's Place"
-              className={`relative max-w-md w-full h-auto object-contain rounded-lg border-2 border-red-400 transition-all duration-500 group-hover:scale-105 ${
+              className={`relative max-w-md w-full h-auto object-contain max-w-full rounded-lg border-2 border-red-400 transition-all duration-500 group-hover:scale-105 drop-shadow-xl ${
                 imageLoaded ? 'opacity-100 animate-fade-in' : 'opacity-0'
               }`}
               onLoad={() => setImageLoaded(true)}
@@ -57,7 +57,7 @@ const PauliFooter = () => {
 
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-yellow-400/30">
-          <p className="text-yellow-400/60 text-sm">
+          <p className={styles.footer}>
             © 2024 The Pauli Effect - Hexona Systems™. All heists crimes websites are protected by international law.
           </p>
         </div>

@@ -1,37 +1,35 @@
 
 import React, { useState } from 'react';
+import { styles } from '@/styles/pauli-styles';
 
 const PauliHero = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-red-900 via-black to-red-900 py-20">
-      {/* Background Pattern */}
+    <div className={styles.heroContainer}>
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,0,0.1)_10px,rgba(255,255,0,0.1)_20px)]"></div>
       </div>
       
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div className={styles.heroContent}>
         <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-          {/* Pauli Image with Parallax */}
-          <div className="relative group cursor-pointer pauli-parallax" id="pauli-anim">
+          <div className={styles.heroImageWrapper} id="pauli-anim">
             <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
             <img
-              src="/pauli-header.png"
-              alt="Pauli 'The Polyglot' - Wanted"
-              className={`relative w-64 h-64 md:w-80 md:h-80 object-contain rounded-full border-4 border-yellow-400 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
+              src="/lovable-uploads/780d2c8c-fcf5-4c8c-a2ca-d606c30f7215.png"
+              alt="Pauli 'The Polyglot' - Comic Style"
+              className={`relative w-64 h-64 md:w-80 md:h-80 object-contain max-w-full rounded-full border-4 border-yellow-400 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 drop-shadow-2xl ${
                 imageLoaded ? 'opacity-100 animate-fade-in' : 'opacity-0'
               }`}
               onLoad={() => setImageLoaded(true)}
             />
           </div>
 
-          {/* Hero Text */}
           <div className="text-left max-w-lg">
-            <h2 className="text-4xl md:text-6xl font-bold text-red-400 mb-4 tracking-wider">
+            <h2 className={styles.heroTitle}>
               THE PAULI EFFECT
             </h2>
-            <p className="text-xl md:text-2xl text-yellow-300 mb-6 leading-relaxed">
+            <p className={styles.heroSubtitle}>
               Notorious web developer and polyglot mastermind. 
               <span className="block text-red-300 italic">
                 "Every website is a heist, every line of code is evidence."
@@ -46,11 +44,10 @@ const PauliHero = () => {
               </ul>
             </div>
             
-            {/* Scroll to menu button */}
             <div className="mt-6">
               <button 
                 data-scrollto="#menu-section"
-                className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
+                className={styles.heroButton}
               >
                 Enter The Speakeasy
               </button>

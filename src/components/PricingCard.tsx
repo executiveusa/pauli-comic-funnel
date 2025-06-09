@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { styles } from '@/styles/pauli-styles';
 
 interface PricingItem {
   tier: string;
@@ -10,7 +11,6 @@ interface PricingItem {
   overview: string;
   cta: string;
   color: string;
-  textColor: string;
 }
 
 interface PricingCardProps {
@@ -23,24 +23,21 @@ const PricingCard = ({ item, index }: PricingCardProps) => {
 
   return (
     <Card 
-      className={`relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-yellow-400 hover:border-red-400 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 cursor-pointer group ${
+      className={`${styles.card} ${
         isHovered ? 'scale-105 rotate-1' : ''
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_30px,rgba(255,215,0,0.1)_30px,rgba(255,215,0,0.1)_32px)]"></div>
       </div>
 
-      {/* Crime Scene Tape Effect */}
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-black to-yellow-400 opacity-80"></div>
       
       <CardContent className="relative z-10 p-8">
-        {/* Tier Badge */}
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-3xl font-bold text-yellow-400 tracking-wider group-hover:text-red-400 transition-colors">
+          <h3 className={styles.tierTitle}>
             {item.tier}
           </h3>
           <div className="bg-black/50 px-3 py-1 rounded-full border border-yellow-400">
@@ -48,31 +45,27 @@ const PricingCard = ({ item, index }: PricingCardProps) => {
           </div>
         </div>
 
-        {/* Price */}
         <div className="mb-6">
-          <p className="text-4xl font-bold text-red-400 mb-2">{item.price}</p>
-          <p className="text-sm text-yellow-200 italic leading-relaxed">{item.target}</p>
+          <p className={`${styles.tierPrice} text-4xl`} style={{ color: item.color }}>{item.price}</p>
+          <p className={styles.tierTarget}>{item.target}</p>
         </div>
 
-        {/* Overview */}
         <div className="mb-8">
-          <p className="text-yellow-100 leading-relaxed text-base">{item.overview}</p>
+          <p className={styles.tierOverview}>{item.overview}</p>
         </div>
 
-        {/* CTA Button */}
         <Button 
-          className={`w-full ${item.color} ${item.textColor} hover:scale-105 hover:shadow-lg font-bold text-lg py-6 transition-all duration-300 border-2 border-black hover:border-yellow-400`}
+          className={`${styles.ctaButton} hover:scale-105 hover:shadow-lg py-6 transition-all duration-300 border-2 border-black hover:border-yellow-400`}
+          style={{ backgroundColor: item.color }}
         >
           <span className="tracking-wider">{item.cta}</span>
         </Button>
 
-        {/* Evidence Number */}
         <div className="mt-4 text-center">
           <p className="text-xs text-yellow-400/60 font-mono">EVIDENCE #{String(index + 1).padStart(3, '0')}</p>
         </div>
       </CardContent>
 
-      {/* Hover Glow Effect */}
       <div className={`absolute inset-0 bg-gradient-to-r from-red-500/10 via-yellow-500/10 to-red-500/10 transition-opacity duration-500 ${
         isHovered ? 'opacity-100' : 'opacity-0'
       }`}></div>
