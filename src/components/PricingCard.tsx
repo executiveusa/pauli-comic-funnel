@@ -23,10 +23,9 @@ const PricingCard = ({ item, index }: PricingCardProps) => {
 
   return (
     <Card 
-      className={`relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-yellow-400 hover:border-red-400 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 animate-fade-in cursor-pointer group ${
+      className={`relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-yellow-400 hover:border-red-400 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 cursor-pointer group ${
         isHovered ? 'scale-105 rotate-1' : ''
       }`}
-      style={{ animationDelay: `${index * 0.2}s` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -13,8 +13,8 @@ const PauliHero = () => {
       
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-          {/* Pauli Image */}
-          <div className="relative group cursor-pointer">
+          {/* Pauli Image with Parallax */}
+          <div className="relative group cursor-pointer pauli-parallax" id="pauli-anim">
             <div className="absolute -inset-4 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
             <img
               src="/pauli-header.png"
@@ -44,6 +44,16 @@ const PauliHero = () => {
                 <li>• Speaking 17 programming languages</li>
                 <li>• Making clients too successful</li>
               </ul>
+            </div>
+            
+            {/* Scroll to menu button */}
+            <div className="mt-6">
+              <button 
+                data-scrollto="#menu-section"
+                className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold transition-all duration-300 hover:scale-105"
+              >
+                Enter The Speakeasy
+              </button>
             </div>
           </div>
         </div>

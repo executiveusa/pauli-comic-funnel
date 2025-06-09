@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import PauliHero from '@/components/PauliHero';
 import PricingCard from '@/components/PricingCard';
 import PauliFooter from '@/components/PauliFooter';
+import { useScrollFX } from '@/hooks/useScrollFX';
 
 const pricingItems = [
   {
@@ -46,30 +47,49 @@ const pricingItems = [
 ];
 
 const Index = () => {
+  useScrollFX();
+
   useEffect(() => {
     document.title = "1111 Pauli's Place — The Menu";
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black text-yellow-300">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black text-yellow-300 relative overflow-hidden">
+      {/* Background Parallax Elements */}
+      <div className="bg-parallax absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_50px,rgba(255,215,0,0.05)_50px,rgba(255,215,0,0.05)_100px)]"></div>
+      </div>
+
       {/* Hero Section */}
       <PauliHero />
       
-      {/* Main Menu Title */}
-      <div className="text-center py-16">
+      {/* Main Menu Title with Scroll Anchor */}
+      <div className="text-center py-16" id="menu-section">
         <h1 className="text-6xl md:text-8xl font-bold tracking-wider mb-4 text-yellow-400 drop-shadow-2xl">
           Welcome to 1111 Pauli's Place
         </h1>
         <p className="text-xl md:text-2xl text-yellow-200 italic">
           "Where Code Meets Crime and Every Build is a Heist"
         </p>
+        
+        {/* Smooth scroll navigation */}
+        <div className="mt-8">
+          <button 
+            data-scrollto="#pricing-section"
+            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 hover:scale-105"
+          >
+            View The Menu
+          </button>
+        </div>
       </div>
 
-      {/* Pricing Grid */}
-      <div className="max-w-7xl mx-auto px-6 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Pricing Grid with Scroll Anchor */}
+      <div className="max-w-7xl mx-auto px-6 pb-20" id="pricing-section">
+        <div className="pricing-grid grid grid-cols-1 md:grid-cols-2 gap-8">
           {pricingItems.map((item, index) => (
-            <PricingCard key={item.tier} item={item} index={index} />
+            <div key={item.tier} className="pricing-card">
+              <PricingCard item={item} index={index} />
+            </div>
           ))}
         </div>
       </div>
