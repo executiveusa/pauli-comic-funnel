@@ -1,0 +1,7 @@
+---
+alwaysApply: false
+---
+
+Commit (conventional commit) files and push to the remote repository.
+
+Important: if not on main, propose to create a new branch and switch to it.

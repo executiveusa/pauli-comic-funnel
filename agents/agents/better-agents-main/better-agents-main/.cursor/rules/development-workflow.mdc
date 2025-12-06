@@ -1,0 +1,7 @@
+---
+description: Development workflow and tooling guidelines
+alwaysApply: true
+---
+
+Development Workflow:
+- We only use pnpm and only `pnpm test:ci` for running tests

@@ -1,0 +1,7 @@
+---
+alwaysApply: false
+---
+
+git add commit ONLY the files you changed just now, write a commit message for it using conventional commits format
+
+DO NOT commit again automatically until I tell you so to do it again
