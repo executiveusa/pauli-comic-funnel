@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pauli-effect"
+version = "0.1.0"
+description = "The Pauli Effect - Autonomous Agency Platform for Comics, Community, & Impact"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    {name = "Executive USA", email = "team@paulieffect.com"}
+]
+license = {text = "MIT"}
+
+# This is the ROOT workspace configuration
+# Individual projects maintain their own pyproject.toml files
+
+[tool.uv]
+# Monorepo workspace configuration for uv
+# All Python projects under this root are part of the workspace
+
+[tool.uv.workspace]
+members = [
+    "JARVIS_Universal_Agent_v2.0",
+    "litellm-main(2)/litellm-main",
+    "eigent-main/server",
+    "eigent-main/backend",
+    "agents/lemonai-main(1)/lemonai-main/browser_server",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+extend-exclude = [
+    ".venv",
+    "venv",
+    ".git",
+    "__pycache__",
+    "node_modules",
+    ".pytest_cache",
+    ".mypy_cache",
+    "dist",
+    "build",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N"]
+ignore = ["E501"]  # Line too long (handled by formatter)
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+exclude = """
+/(
+    \\.git
+    | \\.venv
+    | venv
+    | build
+    | dist
+    | __pycache__
+    | node_modules
+)/
+"""
+
+# Development scripts
+[project.scripts]
+pauli-doctor = "scripts.health_check:main"
+pauli-setup = "scripts.init_env:main"
+pauli-test = "scripts.run_tests:main"
