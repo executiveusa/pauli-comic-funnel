@@ -23,10 +23,7 @@ license = {text = "MIT"}
 [tool.uv.workspace]
 members = [
     "JARVIS_Universal_Agent_v2.0",
-    "litellm-main(2)/litellm-main",
     "eigent-main/server",
-    "eigent-main/backend",
-    "agents/lemonai-main(1)/lemonai-main/browser_server",
 ]
 
 [tool.ruff]
