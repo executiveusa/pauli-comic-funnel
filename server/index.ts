@@ -3,6 +3,7 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import Anthropic from '@anthropic-ai/sdk';
 import { Client } from '@notionhq/client';
+import copilotKitRoutes from './copilotkit-routes';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -11,6 +12,9 @@ const notion = new Client({ auth: process.env.NOTION_API_TOKEN });
 
 app.use(cors());
 app.use(express.json());
+
+// CopilotKit API routes
+app.use('/api', copilotKitRoutes);
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
