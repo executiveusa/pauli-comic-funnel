@@ -1,0 +1,273 @@
+// Prisma schema for THE PAULI EFFECT - v5 compatible
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  avatar        String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  emailCaptures EmailCapture[]
+  comicProgress ComicProgress[]
+  orders        Order[]
+  sessions      Session[]
+  @@index([email])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([token])
+  @@index([userId])
+}
+
+model EmailCapture {
+  id          String   @id @default(cuid())
+  email       String
+  name        String?
+  source      String   @default("landing")
+  referrer    String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  ipAddress   String?
+  userAgent   String?
+  status      EmailStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  notionPageId String?
+  notionSynced Boolean  @default(false)
+  notionSyncedAt DateTime?
+  @@index([email])
+  @@index([source])
+  @@index([createdAt])
+}
+
+enum EmailStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+  SPAM
+}
+
+model ComicEpisode {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  description   String?
+  coverImage    String?
+  orderIndex    Int      @default(0)
+  status        ContentStatus @default(DRAFT)
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  panels        ComicPanel[]
+  progress      ComicProgress[]
+  notionPageId  String?
+  @@index([slug])
+  @@index([status])
+}
+
+model ComicPanel {
+  id          String   @id @default(cuid())
+  episodeId   String
+  orderIndex  Int      @default(0)
+  imageUrl    String
+  altText     String?
+  dialogue    String?
+  narration   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  episode     ComicEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  @@index([episodeId])
+}
+
+model ComicProgress {
+  id            String   @id @default(cuid())
+  userId        String
+  episodeId     String
+  panelIndex    Int      @default(0)
+  completed     Boolean  @default(false)
+  completedAt   DateTime?
+  timeSpent     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  episode       ComicEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  @@unique([userId, episodeId])
+  @@index([userId])
+  @@index([episodeId])
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String?
+  price         Decimal  @db.Decimal(10, 2)
+  comparePrice  Decimal? @db.Decimal(10, 2)
+  images        String[]
+  category      String?
+  inventory     Int      @default(0)
+  status        ProductStatus @default(ACTIVE)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orderItems    OrderItem[]
+  @@index([slug])
+  @@index([status])
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  userId          String?
+  email           String
+  status          OrderStatus @default(PENDING)
+  subtotal        Decimal  @db.Decimal(10, 2)
+  tax             Decimal  @db.Decimal(10, 2) @default(0)
+  shipping        Decimal  @db.Decimal(10, 2) @default(0)
+  total           Decimal  @db.Decimal(10, 2)
+  shippingName    String?
+  shippingAddress String?
+  shippingCity    String?
+  shippingState   String?
+  shippingZip     String?
+  shippingCountry String?
+  paymentMethod   String?
+  paymentId       String?
+  paidAt          DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User?       @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+  @@index([userId])
+  @@index([email])
+  @@index([status])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  productId   String
+  quantity    Int      @default(1)
+  price       Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now())
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+  @@index([orderId])
+  @@index([productId])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  eventType   String
+  eventData   Json?
+  userId      String?
+  sessionId   String?
+  pageUrl     String?
+  referrer    String?
+  userAgent   String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+  @@index([eventType])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model NotionSync {
+  id            String   @id @default(cuid())
+  tableName     String
+  recordId      String
+  notionPageId  String
+  lastSyncedAt  DateTime @default(now())
+  syncStatus    SyncStatus @default(SUCCESS)
+  errorMessage  String?
+  @@unique([tableName, recordId])
+  @@index([tableName])
+  @@index([syncStatus])
+}
+
+enum SyncStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Conversation {
+  id          String   @id @default(cuid())
+  userId      String?
+  sessionId   String
+  status      ConversationStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  messages    Message[]
+  @@index([userId])
+  @@index([sessionId])
+}
+
+model Message {
+  id              String   @id @default(cuid())
+  conversationId  String
+  role            MessageRole
+  content         String
+  metadata        Json?
+  tokens          Int?
+  createdAt       DateTime @default(now())
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@index([conversationId])
+}
+
+enum ConversationStatus {
+  ACTIVE
+  CLOSED
+  ARCHIVED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
