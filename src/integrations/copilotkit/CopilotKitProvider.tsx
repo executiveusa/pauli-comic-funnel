@@ -1,6 +1,5 @@
 import React from 'react';
 import { CopilotKit } from '@copilotkit/react-core';
-import '@copilotkit/react-ui/styles.css';
 
 interface CopilotKitProviderProps {
   children: React.ReactNode;
