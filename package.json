@@ -15,7 +15,13 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@a2a-js/sdk": "^0.2.5",
+    "@a2ui/lit": "^0.8.1",
+    "@ag-ui/a2a": "^0.0.6",
     "@anthropic-ai/sdk": "^0.71.2",
+    "@copilotkit/a2ui-renderer": "^0.0.2",
+    "@copilotkit/react-core": "~1.50.0",
+    "@copilotkit/runtime": "~1.50.0",
     "@hookform/resolvers": "^3.9.0",
     "@notionhq/client": "^5.6.0",
     "@prisma/client": "^5.22.0",

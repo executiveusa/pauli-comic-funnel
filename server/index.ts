@@ -3,6 +3,9 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import Anthropic from '@anthropic-ai/sdk';
 import { Client } from '@notionhq/client';
+import copilotKitRoutes from './copilotkit-routes';
+import agiOpenRoutes from './agi-open-routes';
+import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -11,6 +14,17 @@ const notion = new Client({ auth: process.env.NOTION_API_TOKEN });
 
 app.use(cors());
 app.use(express.json());
+
+// Middleware: Log frontend generation and enforce CopilotKit usage
+app.use(logFrontendGeneration);
+app.use(redirectToCopilotKit);
+app.use(enforceCopilotKitUsage);
+
+// CopilotKit API routes (rebranded as Pauli Agent UI)
+app.use('/api', copilotKitRoutes);
+
+// AGI Open routes (computer-use automation)
+app.use('/api/agi-open', agiOpenRoutes);
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
