@@ -3,16 +3,34 @@ import { CopilotRuntime } from '@copilotkit/runtime';
 import Anthropic from '@anthropic-ai/sdk';
 
 /**
- * CopilotKit API Routes for Pauli Effect Project
+ * CopilotKit API Routes for Pauli Effect Project (Rebranded)
  *
  * Provides backend endpoints for CopilotKit integration,
  * enabling AI-powered chat and agent-driven UI generation.
+ *
+ * CopilotKit is rebranded as "Pauli Agent UI" in this system.
  */
 
 const router = Router();
+
+// Validate required environment variables
+if (!process.env.COPILOTKIT_API_KEY) {
+  console.warn('⚠️  COPILOTKIT_API_KEY not set in environment variables');
+}
+
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.warn('⚠️  ANTHROPIC_API_KEY not set in environment variables');
+}
+
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+// CopilotKit configuration with API key
+const copilotKitConfig = {
+  apiKey: process.env.COPILOTKIT_API_KEY,
+  publicKey: process.env.COPILOTKIT_API_KEY, // For public key authentication
+};
 
 /**
  * CopilotKit Runtime Handler
