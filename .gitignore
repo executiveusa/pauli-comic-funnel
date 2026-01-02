@@ -110,3 +110,16 @@ playwright-browsers/
 temp/
 tmp/
 cache/
+
+# Large files (GitHub 100MB limit)
+*.zip
+installer_output/*.zip
+installer_output/ThePauliEffect_v1.0.0.zip
+
+# Embedded git repos (avoid submodule issues)
+installer_output/ThePauliEffect_v1.0.0/pauli-comic-funnel-main/
+playwright-mcp/
+poly-second-brain/
+
+# WIP Shelves
+_WIP_SHELF_*
