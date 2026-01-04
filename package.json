@@ -10,9 +10,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "tsx server/index.ts",
+    "start": "npm run server",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:migrate": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@a2a-js/sdk": "^0.2.5",
@@ -24,6 +28,7 @@
     "@copilotkit/runtime": "~1.50.0",
     "@hookform/resolvers": "^3.9.0",
     "@notionhq/client": "^5.6.0",
+    "@octokit/rest": "^21.0.0",
     "@prisma/client": "^5.22.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -79,7 +84,8 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.21.0",
     "vaul": "^0.9.3",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "chokidar": "^3.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -98,6 +104,7 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vitest": "^2.0.0"
   }
 }

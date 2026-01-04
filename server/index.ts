@@ -5,6 +5,8 @@ import Anthropic from '@anthropic-ai/sdk';
 import { Client } from '@notionhq/client';
 import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
+import syncRoutes, { initializeWatchers } from './sync-routes';
+import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
 const app = express();
@@ -25,6 +27,9 @@ app.use('/api', copilotKitRoutes);
 
 // AGI Open routes (computer-use automation)
 app.use('/api/agi-open', agiOpenRoutes);
+
+// ByteRover Sync routes (Triple-Sync)
+app.use('/api', syncRoutes);
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
@@ -291,6 +296,13 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`🚀 Pauli Effect API running on port ${PORT}`);
+  
+  // Initialize sync engine and watchers
+  const syncEngine = getSyncEngine();
+  initializeWatchers();
+  syncEngine.start().catch(console.error);
+  
+  console.log('📡 ByteRover Sync Engine initialized');
 });
 
 export default app;

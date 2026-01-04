@@ -1,0 +1,41 @@
+{
+  "$schema": "https://coolify.io/schema.json",
+  "name": "pauli-effect",
+  "description": "THE PAULI EFFECT - AI-powered comic funnel & agent system",
+  "type": "dockerfile",
+  "dockerfile": "Dockerfile",
+  "ports": {
+    "http": 3000,
+    "api": 3001
+  },
+  "healthCheck": {
+    "path": "/api/health",
+    "port": 3001,
+    "interval": 30,
+    "timeout": 5
+  },
+  "domains": [
+    "pauli.srv1099662.hstgr.cloud"
+  ],
+  "environment": {
+    "NODE_ENV": "production",
+    "PORT": "3001"
+  },
+  "resources": {
+    "limits": {
+      "memory": "1024Mi",
+      "cpu": "1000m"
+    },
+    "requests": {
+      "memory": "256Mi",
+      "cpu": "100m"
+    }
+  },
+  "autoDeploy": true,
+  "buildArgs": {},
+  "labels": {
+    "app": "pauli-effect",
+    "env": "production",
+    "team": "executiveusa"
+  }
+}
