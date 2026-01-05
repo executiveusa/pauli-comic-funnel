@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "n8n": {
+      "command": "python",
+      "args": [
+        "-m",
+        "server"
+      ],
+      "env": {
+        "N8N_API_URL": "http://localhost:5678/api/v1",
+        "N8N_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}

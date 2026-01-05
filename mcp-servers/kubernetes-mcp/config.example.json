@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "kubernetes": {
+      "command": "python",
+      "args": [
+        "-m",
+        "server"
+      ],
+      "env": {
+        "KUBECONFIG": "/path/to/.kube/config"
+      }
+    }
+  }
+}

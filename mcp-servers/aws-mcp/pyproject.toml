@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aws-mcp"
+version = "1.0.0"
+description = "AWS MCP Server - Comprehensive AWS services automation via MCP"
+authors = [{name = "The Pauli Effect", email = "hello@paulieffect.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["mcp", "aws", "boto3", "s3", "lambda", "ec2", "cloudwatch", "iam", "ai-assistant"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration"
+]
+
+dependencies = [
+    "mcp>=1.0.0",
+    "boto3>=1.34.0",
+    "starlette>=0.36.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+    "moto>=5.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/pauli-effect/aws-mcp"
+Repository = "https://github.com/pauli-effect/aws-mcp"
+
+[project.scripts]
+aws-mcp = "aws_mcp:main"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "moto>=5.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = ["-v", "--tb=short"]

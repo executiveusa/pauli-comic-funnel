@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "terraform": {
+      "command": "python",
+      "args": [
+        "-m",
+        "server"
+      ],
+      "env": {
+        "TERRAFORM_WORKING_DIR": "/path/to/terraform/configs"
+      }
+    }
+  }
+}
