@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/contexts/AuthContext';
+import { Login } from '@/components/Login';
 import { 
   Bot, 
   Cpu, 
@@ -19,7 +21,10 @@ import {
   MessageSquare,
   Zap,
   Shield,
-  DollarSign
+  DollarSign,
+  LogOut,
+  Database,
+  User
 } from 'lucide-react';
 
 interface ServiceStatus {
@@ -39,13 +44,15 @@ interface Agent {
 }
 
 const Dashboard = () => {
+  const { user, isAuthenticated, loading, logout } = useAuth();
+  
   const [services, setServices] = useState<ServiceStatus[]>([
     { name: 'LibreChat', status: 'loading', port: 3000, url: 'http://localhost:3000' },
-    { name: 'LiteLLM API', status: 'loading', port: 4000, url: 'http://localhost:4000' },
-    { name: 'PostgreSQL', status: 'loading', port: 5432, url: '' },
-    { name: 'MongoDB', status: 'loading', port: 27017, url: '' },
+    { name: 'Supabase', status: 'loading', port: 5432, url: 'https://nfhejlqgvghzafrnmpsl.supabase.co' },
+    { name: 'Backend API', status: 'loading', port: 3001, url: 'http://localhost:3001/api/health' },
+    { name: 'n8n Automation', status: 'loading', port: 5678, url: 'http://localhost:5678' },
     { name: 'Redis', status: 'loading', port: 6379, url: '' },
-    { name: 'Meilisearch', status: 'loading', port: 7700, url: 'http://localhost:7700' },
+    { name: 'Vercel Frontend', status: 'loading', port: 443, url: '' },
   ]);
 
   const [stats, setStats] = useState({
@@ -153,6 +160,23 @@ const Dashboard = () => {
     return <Badge className="bg-red-500"><XCircle className="h-3 w-3 mr-1" /> Offline</Badge>;
   };
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+        <div className="text-center">
+          <RefreshCw className="h-12 w-12 text-purple-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login if not authenticated
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-8">
       {/* Header */}
@@ -163,7 +187,11 @@ const Dashboard = () => {
           </h1>
           <p className="text-gray-400 mt-1">Autonomous AI Agency Dashboard</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 rounded-lg border border-gray-700">
+            <User className="h-4 w-4 text-purple-400" />
+            <span className="text-sm text-gray-300">{user?.email}</span>
+          </div>
           <Button variant="outline" onClick={checkServices}>
             <RefreshCw className="h-4 w-4 mr-2" /> Refresh
           </Button>
@@ -172,6 +200,13 @@ const Dashboard = () => {
             onClick={() => window.open('http://localhost:3000', '_blank')}
           >
             <MessageSquare className="h-4 w-4 mr-2" /> Open Chat
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={logout}
+            className="border-red-700 text-red-400 hover:bg-red-900/30"
+          >
+            <LogOut className="h-4 w-4 mr-2" /> Logout
           </Button>
         </div>
       </div>
