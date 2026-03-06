@@ -7,7 +7,7 @@ requires-python = ">=3.10.0,<3.12"
 dependencies = [
     "crewai>=0.152.0",
     "python-dotenv==1.0.0",
-    "markdown==3.4.3",
+    "markdown==3.8.1",
     "pymarkdownlnt==0.9.15",
 ]
 
