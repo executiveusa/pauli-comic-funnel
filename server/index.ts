@@ -6,6 +6,7 @@ import { Client } from '@notionhq/client';
 import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
 import syncRoutes, { initializeWatchers } from './sync-routes';
+import brainRoutes from './routes/brain';
 import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
@@ -30,6 +31,9 @@ app.use('/api/agi-open', agiOpenRoutes);
 
 // ByteRover Sync routes (Triple-Sync)
 app.use('/api', syncRoutes);
+
+// PAULI Second Brain routes
+app.use('/api/brain', brainRoutes);
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {

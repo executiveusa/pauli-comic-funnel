@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#EDEAE4">
+<title>PAULI — Second Brain</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #EDEAE4; --bg2: #E6E2DB; --bg3: #DDD9D1;
+  --white: #F8F6F2; --surface: #FFFFFF; --border: #D8D4CC; --border2: #C8C4BB;
+  --text: #1A1814; --text2: #6B6760; --text3: #9E9B95; --black: #1A1814;
+  --green: #2D5016; --green-bg: #E8F0E0;
+  --amber: #C4720A; --amber-bg: #FDF0DC;
+  --red: #C0392B; --red-bg: #FDECEA;
+  --blue: #1A4A7A; --blue-bg: #E8F0FA;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; overflow:hidden; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:15px; }
+::-webkit-scrollbar { width:0; }
+
+.screen { display:none; flex-direction:column; height:100vh; overflow:hidden; animation:fi 0.18s ease-out; }
+.screen.active { display:flex; }
+@keyframes fi { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 20px 10px; flex-shrink:0; }
+.logo { font-family:var(--serif); font-weight:700; font-size:26px; letter-spacing:-0.03em; font-style:italic; }
+.icon-btn { width:38px;height:38px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:18px;transition:background 0.15s; }
+.icon-btn:hover { background:var(--bg3); }
+
+.filter-bar { display:flex;gap:8px;padding:4px 20px 14px;flex-shrink:0;overflow-x:auto; }
+.chip { padding:8px 18px;border-radius:50px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:all 0.15s;white-space:nowrap; }
+.chip.active { background:var(--black);color:#fff; }
+.chip.inactive { background:var(--bg2);color:var(--text2);border:1.5px solid var(--border); }
+
+.scroll-body { flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch; }
+
+.list-item { display:flex;align-items:flex-start;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.1s; }
+.list-item:hover { background:rgba(0,0,0,0.02); }
+.item-avatar { width:44px;height:44px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
+.item-avatar.ip { border:2px dashed var(--amber);background:var(--amber-bg); }
+.item-body { flex:1;min-width:0; }
+.item-title { font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px; }
+.item-sub { font-size:13px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.item-date { font-size:13px;color:var(--text3);flex-shrink:0;margin-top:2px; }
+.section-label { padding:18px 20px 6px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3); }
+
+.fab { position:fixed;bottom:80px;right:20px;width:60px;height:60px;border-radius:50%;background:var(--black);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 20px rgba(0,0,0,0.25);transition:all 0.2s;z-index:90; }
+.fab:hover { transform:scale(1.06); }
+.fab.listening { background:var(--green);animation:fab-pulse 1.2s ease-in-out infinite; }
+@keyframes fab-pulse { 0%,100%{box-shadow:0 0 0 8px rgba(45,80,22,0.15)} 50%{box-shadow:0 0 0 16px rgba(45,80,22,0.05)} }
+
+.voice-overlay { position:fixed;inset:0;background:rgba(26,24,20,0.65);backdrop-filter:blur(10px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:flex-end; }
+.voice-overlay.open { display:flex; }
+.voice-sheet { background:var(--bg);border-radius:28px 28px 0 0;width:100%;padding:24px 24px 48px;animation:si 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes si { from{transform:translateY(40px);opacity:0} to{transform:none;opacity:1} }
+.voice-title { font-family:var(--serif);font-size:20px;font-weight:600;text-align:center;margin-bottom:16px; }
+.voice-input-row { display:flex;align-items:center;gap:10px;background:var(--white);border:1.5px solid var(--border2);border-radius:50px;padding:10px 14px;margin-bottom:14px; }
+.voice-input-row:focus-within { border-color:var(--text); }
+.voice-input { flex:1;background:transparent;border:none;outline:none;font-family:var(--sans);font-size:15px;color:var(--text); }
+.voice-input::placeholder { color:var(--text3); }
+.mic-btn { width:36px;height:36px;border-radius:50%;background:var(--black);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0; }
+.mic-btn.active { background:var(--green);animation:mp 1s ease-in-out infinite; }
+@keyframes mp { 0%,100%{box-shadow:0 0 0 0 rgba(45,80,22,0.4)} 50%{box-shadow:0 0 0 10px rgba(45,80,22,0)} }
+.waveform { display:flex;align-items:center;justify-content:center;gap:3px;height:32px;margin:8px 0;opacity:0;transition:opacity 0.2s; }
+.waveform.active { opacity:1; }
+.wbar { width:3px;border-radius:2px;background:var(--text2);animation:wa 0.9s ease-in-out infinite; }
+.wbar:nth-child(1){height:8px;animation-delay:0s}
+.wbar:nth-child(2){height:20px;animation-delay:0.1s}
+.wbar:nth-child(3){height:30px;animation-delay:0.2s}
+.wbar:nth-child(4){height:22px;animation-delay:0.15s}
+.wbar:nth-child(5){height:32px;animation-delay:0.05s}
+.wbar:nth-child(6){height:18px;animation-delay:0.25s}
+.wbar:nth-child(7){height:12px;animation-delay:0.3s}
+@keyframes wa { 0%,100%{transform:scaleY(0.4);opacity:0.5} 50%{transform:scaleY(1);opacity:1} }
+.qps { display:flex;gap:8px;flex-wrap:wrap;margin-top:6px; }
+.qp { padding:7px 14px;border-radius:50px;background:var(--bg2);border:1.5px solid var(--border);font-size:13px;color:var(--text2);cursor:pointer;transition:all 0.12s; }
+.qp:hover { background:var(--black);color:#fff;border-color:var(--black); }
+
+.ai-card { margin:0 16px 14px;background:var(--surface);border:1.5px solid var(--border2);border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);display:none;animation:fi 0.2s ease-out; }
+.ai-card.show { display:block; }
+.ai-card-hdr { display:flex;align-items:center;gap:8px;margin-bottom:10px; }
+.ai-sphere { width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#a8ffda,#3a6b4a,#0a150d);box-shadow:0 0 8px rgba(45,80,22,0.3); }
+.ai-label { font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3); }
+.ai-body { font-size:14px;line-height:1.6; }
+
+.graph-hdr { padding:14px 20px 6px;flex-shrink:0; }
+.graph-title { font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:-0.02em; }
+.graph-sub { font-size:13px;color:var(--text3); }
+.graph-filters { display:flex;gap:6px;padding:8px 16px;overflow-x:auto;flex-shrink:0; }
+.gchip { padding:6px 14px;border-radius:50px;white-space:nowrap;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;transition:all 0.12s;color:var(--text2); }
+.gchip.on { background:var(--black);color:#fff;border-color:var(--black); }
+#gc { display:block;background:var(--surface);border-radius:16px;margin:0 16px;cursor:grab;box-shadow:0 2px 12px rgba(0,0,0,0.06);touch-action:none; }
+#gc:active { cursor:grabbing; }
+
+.k-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 16px; }
+.k-card { background:var(--surface);border-radius:16px;padding:14px;border:1.5px solid var(--border);cursor:pointer;transition:all 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+.k-card:hover { border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+.k-icon { font-size:22px;margin-bottom:8px; }
+.k-title { font-size:14px;font-weight:600;margin-bottom:4px; }
+.k-count { font-size:12px;color:var(--text3); }
+
+.upload-zone { margin:0 16px;border:2px dashed var(--border2);border-radius:16px;padding:32px 20px;text-align:center;cursor:pointer;transition:all 0.2s; }
+.upload-zone:hover,.upload-zone.drag { border-color:var(--text);background:rgba(0,0,0,0.02); }
+.upload-icon { font-size:36px;margin-bottom:10px;opacity:0.5; }
+.upload-title { font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:6px; }
+.upload-sub { font-size:13px;color:var(--text3); }
+
+.bottom-nav { display:flex;background:var(--bg);border-top:1px solid var(--border);padding:8px 0 env(safe-area-inset-bottom, 12px);flex-shrink:0; }
+.bn-item { flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;background:none;border:none; }
+.bn-icon { font-size:22px;line-height:1; }
+.bn-label { font-size:10px;font-weight:500;color:var(--text3); }
+.bn-item.active .bn-label { color:var(--text); font-weight:600; }
+
+.sheet-overlay { position:fixed;inset:0;background:rgba(26,24,20,0.5);z-index:150;display:none;align-items:flex-end; }
+.sheet-overlay.open { display:flex; }
+.bottom-sheet { background:var(--bg);border-radius:28px 28px 0 0;width:100%;max-height:92vh;overflow-y:auto;animation:si 0.25s cubic-bezier(0.34,1.56,0.64,1);padding-bottom:env(safe-area-inset-bottom,32px); }
+.sheet-handle { width:36px;height:4px;border-radius:2px;background:var(--border2);margin:12px auto 0; }
+.sheet-hdr { padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between; }
+.sheet-title { font-family:var(--serif);font-size:20px;font-weight:700; }
+.close-btn { width:32px;height:32px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:16px; }
+
+.spacer { height:80px; }
+.loading-dots { display:inline-flex;gap:4px;align-items:center; }
+.loading-dots span { width:5px;height:5px;border-radius:50%;background:var(--text3);animation:db 1s ease-in-out infinite; }
+.loading-dots span:nth-child(2){animation-delay:0.15s}
+.loading-dots span:nth-child(3){animation-delay:0.3s}
+@keyframes db { 0%,60%,100%{transform:none;opacity:0.3} 30%{transform:translateY(-4px);opacity:1} }
+.model-switcher { display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto; }
+.model-chip { padding:6px 14px;border-radius:50px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;white-space:nowrap;color:var(--text2);transition:all 0.12s; }
+.model-chip.active { background:var(--black);color:#fff;border-color:var(--black); }
+</style>
+</head>
+<body>
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="s-home">
+  <div class="topbar">
+    <button class="icon-btn" onclick="openSheet('profile')">👤</button>
+    <div class="logo">pauli</div>
+    <button class="icon-btn" onclick="openVoice()">🔍</button>
+  </div>
+
+  <div class="model-switcher" id="model-switcher">
+    <button class="model-chip active" onclick="setModel(this,'claude-sonnet')">Claude Sonnet</button>
+    <button class="model-chip" onclick="setModel(this,'claude-opus')">Claude Opus</button>
+    <button class="model-chip" onclick="setModel(this,'gpt-4o')">GPT-4o</button>
+    <button class="model-chip" onclick="setModel(this,'gemini-pro')">Gemini Pro</button>
+  </div>
+
+  <div class="ai-card" id="home-ai">
+    <div class="ai-card-hdr"><div class="ai-sphere"></div><span class="ai-label">PAULI-PRIME · <span id="active-model-label">claude-sonnet-4-6</span></span></div>
+    <div class="ai-body" id="home-ai-text"></div>
+  </div>
+
+  <div class="scroll-body">
+    <div class="section-label">Active</div>
+    <div class="list-item" onclick="openVoice()"><div class="item-avatar ip">🤖</div><div class="item-body"><div class="item-title">ARCHON-X OS · BMAD sprint</div><div class="item-sub">Pauli building after session…</div></div><div class="item-date">today</div></div>
+    <div class="list-item" onclick="openVoice()"><div class="item-avatar ip">⊕</div><div class="item-body"><div class="item-title">Second Brain graph extraction</div><div class="item-sub">65 nodes · InfraNodus running</div></div><div class="item-date">today</div></div>
+    <div class="spacer"></div>
+  </div>
+  <button class="fab" id="fab-main" onclick="openVoice()">💬</button>
+  <div class="bottom-nav">
+    <button class="bn-item active" onclick="nav('home')"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></button>
+    <button class="bn-item" onclick="nav('graph')"><span class="bn-icon">⊕</span><span class="bn-label">Graph</span></button>
+    <button class="bn-item" onclick="nav('knowledge')"><span class="bn-icon">📖</span><span class="bn-label">Memory</span></button>
+    <button class="bn-item" onclick="nav('upload')"><span class="bn-icon">⬆</span><span class="bn-label">Import</span></button>
+  </div>
+</div>
+
+<!-- GRAPH SCREEN -->
+<div class="screen" id="s-graph">
+  <div class="graph-hdr">
+    <div class="graph-title">Knowledge Graph</div>
+    <div class="graph-sub" id="graph-stats">Loading…</div>
+  </div>
+  <div class="graph-filters">
+    <button class="gchip on" onclick="filterGraph(this,'all')">All</button>
+    <button class="gchip" onclick="filterGraph(this,'company')">Companies</button>
+    <button class="gchip" onclick="filterGraph(this,'product')">Products</button>
+    <button class="gchip" onclick="filterGraph(this,'infra')">Infra</button>
+  </div>
+  <canvas id="gc" height="300"></canvas>
+  <div class="scroll-body" style="padding-top:12px;">
+    <div class="section-label">Top Connected</div>
+    <div id="top-nodes"></div>
+    <div class="spacer"></div>
+  </div>
+  <button class="fab" onclick="openVoice()">💬</button>
+  <div class="bottom-nav">
+    <button class="bn-item" onclick="nav('home')"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></button>
+    <button class="bn-item active" onclick="nav('graph')"><span class="bn-icon">⊕</span><span class="bn-label">Graph</span></button>
+    <button class="bn-item" onclick="nav('knowledge')"><span class="bn-icon">📖</span><span class="bn-label">Memory</span></button>
+    <button class="bn-item" onclick="nav('upload')"><span class="bn-icon">⬆</span><span class="bn-label">Import</span></button>
+  </div>
+</div>
+
+<!-- KNOWLEDGE SCREEN -->
+<div class="screen" id="s-knowledge">
+  <div style="padding:14px 20px 10px;flex-shrink:0;">
+    <div class="graph-title">Memory</div>
+    <div style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border);border-radius:50px;padding:10px 16px;margin-top:10px;">
+      <span style="color:var(--text3);font-size:16px;">🔍</span>
+      <input id="search-input" style="flex:1;background:transparent;border:none;outline:none;font-family:var(--sans);font-size:14px;color:var(--text);" placeholder="Search your second brain…" oninput="doSearch(this.value)" />
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="k-grid">
+      <div class="k-card" onclick="sendQuery('List all company nodes and their relationships')"><div class="k-icon">🏢</div><div class="k-title">Companies</div><div class="k-count" id="kc-company">— entities</div></div>
+      <div class="k-card" onclick="sendQuery('List all product nodes')"><div class="k-icon">🤖</div><div class="k-title">Products</div><div class="k-count" id="kc-product">— products</div></div>
+      <div class="k-card" onclick="sendQuery('Show infrastructure relationships')"><div class="k-icon">⚙️</div><div class="k-title">Infra</div><div class="k-count" id="kc-infra">— systems</div></div>
+      <div class="k-card" onclick="sendQuery('List all client nodes')"><div class="k-icon">🤝</div><div class="k-title">Clients</div><div class="k-count" id="kc-client">— active</div></div>
+      <div class="k-card" onclick="sendQuery('List all protocol and framework nodes')"><div class="k-icon">📋</div><div class="k-title">Protocols</div><div class="k-count" id="kc-protocol">— frameworks</div></div>
+      <div class="k-card" onclick="sendQuery('List all people in the graph')"><div class="k-icon">👥</div><div class="k-title">People</div><div class="k-count" id="kc-person">— contacts</div></div>
+    </div>
+    <div class="section-label">Search Results</div>
+    <div id="search-results"></div>
+    <div class="spacer"></div>
+  </div>
+  <button class="fab" onclick="openVoice()">💬</button>
+  <div class="bottom-nav">
+    <button class="bn-item" onclick="nav('home')"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></button>
+    <button class="bn-item" onclick="nav('graph')"><span class="bn-icon">⊕</span><span class="bn-label">Graph</span></button>
+    <button class="bn-item active" onclick="nav('knowledge')"><span class="bn-icon">📖</span><span class="bn-label">Memory</span></button>
+    <button class="bn-item" onclick="nav('upload')"><span class="bn-icon">⬆</span><span class="bn-label">Import</span></button>
+  </div>
+</div>
+
+<!-- UPLOAD SCREEN -->
+<div class="screen" id="s-upload">
+  <div class="topbar">
+    <div style="width:38px"></div>
+    <div class="logo" style="font-size:22px">import</div>
+    <button class="icon-btn" onclick="openVoice()">🔍</button>
+  </div>
+  <div class="scroll-body" style="padding:16px;">
+    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+      <div class="upload-icon">📦</div>
+      <div class="upload-title">Drop files here</div>
+      <div class="upload-sub">ChatGPT export · Claude export · PDF · TXT · MD<br>Up to 500MB</div>
+      <input id="file-input" type="file" accept=".json,.pdf,.txt,.md,.zip" style="display:none" onchange="handleFile(this.files[0])">
+    </div>
+    <div style="margin-top:16px;background:var(--surface);border-radius:16px;padding:14px 16px;border:1.5px solid var(--border);">
+      <div style="font-weight:600;margin-bottom:10px;">Google Drive</div>
+      <div style="font-size:13px;color:var(--text3);">Syncs Google Docs into the knowledge graph.</div>
+      <button onclick="syncDrive()" style="margin-top:8px;padding:6px 16px;border-radius:50px;background:var(--black);color:#fff;border:none;font-size:13px;cursor:pointer;">Sync Now</button>
+      <div id="drive-status" style="margin-top:8px;font-size:12px;color:var(--green);"></div>
+    </div>
+    <div class="spacer"></div>
+  </div>
+  <div class="bottom-nav">
+    <button class="bn-item" onclick="nav('home')"><span class="bn-icon">🏠</span><span class="bn-label">Home</span></button>
+    <button class="bn-item" onclick="nav('graph')"><span class="bn-icon">⊕</span><span class="bn-label">Graph</span></button>
+    <button class="bn-item" onclick="nav('knowledge')"><span class="bn-icon">📖</span><span class="bn-label">Memory</span></button>
+    <button class="bn-item active" onclick="nav('upload')"><span class="bn-icon">⬆</span><span class="bn-label">Import</span></button>
+  </div>
+</div>
+
+<!-- VOICE OVERLAY -->
+<div class="voice-overlay" id="voice-overlay" onclick="handleVoiceOC(event)">
+  <div class="voice-sheet">
+    <div class="voice-title">Ask PAULI</div>
+    <div class="voice-input-row">
+      <input class="voice-input" id="vtxt" placeholder="What do you want to know?" onkeydown="handleVK(event)" />
+      <button class="mic-btn" id="vmic" onclick="toggleMic()">🎙</button>
+    </div>
+    <div class="waveform" id="wf">
+      <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+      <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+    </div>
+    <div class="qps">
+      <span class="qp" onclick="sendQuery('Status of all active projects')">Project status</span>
+      <span class="qp" onclick="sendQuery('What connects Cheggie to Synthia?')">Trace path</span>
+      <span class="qp" onclick="sendQuery('What are the most important nodes in my graph?')">Top nodes</span>
+      <span class="qp" onclick="sendQuery('What should I work on today?')">What next?</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE SHEET -->
+<div class="sheet-overlay" id="profile-overlay" onclick="closeSheet('profile',event)">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;font-size:18px">🤖</div>
+        <div><div style="font-weight:600;font-size:14px">executiveusa@gmail.com</div><div style="font-size:12px;color:var(--text3)">Bambu · Puerto Vallarta</div></div>
+      </div>
+      <button class="close-btn" onclick="closeSheet('profile')">✕</button>
+    </div>
+    <div style="padding:14px 16px;border-bottom:1px solid var(--bg2);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-weight:600;">Pro</div>
+        <button style="padding:6px 16px;border-radius:50px;background:var(--black);color:#fff;border:none;font-size:13px;cursor:pointer;">Upgrade</button>
+      </div>
+    </div>
+    <div style="padding:14px 16px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3); margin-top:8px;">Settings</div>
+    <div style="padding:14px 20px;cursor:pointer;border-bottom:1px solid var(--bg2);" onclick="openVoice();closeSheet('profile')">
+      <div style="font-weight:600;">About PAULI</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px;">Second Brain OS v1.0</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = window.PAULI_API || (location.hostname === 'localhost' ? 'http://localhost:3001' : '');
+let activeModel = 'claude-sonnet';
+
+// NAVIGATION
+function nav(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-' + name)?.classList.add('active');
+  if (name === 'graph') loadGraph();
+  if (name === 'knowledge') loadCounts();
+}
+
+// SHEETS
+function openSheet(name) {
+  document.getElementById('profile-overlay')?.classList.remove('open');
+  document.getElementById(name + '-overlay')?.classList.add('open');
+}
+function closeSheet(name, e) {
+  if (!e || e.target === document.getElementById(name + '-overlay'))
+    document.getElementById(name + '-overlay')?.classList.remove('open');
+}
+
+// MODEL SWITCHER
+function setModel(el, modelKey) {
+  document.querySelectorAll('.model-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeModel = modelKey;
+  const modelNames = {
+    'claude-sonnet': 'claude-sonnet-4-6',
+    'claude-opus': 'claude-opus-4-6',
+    'gpt-4o': 'gpt-4o',
+    'gemini-pro': 'gemini-2.5-pro'
+  };
+  document.getElementById('active-model-label').textContent = modelNames[modelKey] || modelKey;
+}
+
+// VOICE
+let micActive = false, recognition = null;
+
+function openVoice() {
+  document.getElementById('voice-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('vtxt').focus(), 300);
+}
+function closeVoice() {
+  document.getElementById('voice-overlay').classList.remove('open');
+  if (micActive) stopMic();
+}
+function handleVoiceOC(e) { if (e.target === document.getElementById('voice-overlay')) closeVoice(); }
+function handleVK(e) {
+  if (e.key === 'Enter') { const v = document.getElementById('vtxt').value.trim(); if (v) sendQuery(v); }
+  if (e.key === 'Escape') closeVoice();
+}
+
+function toggleMic() {
+  if (micActive) { stopMic(); return; }
+  micActive = true;
+  document.getElementById('vmic').classList.add('active');
+  document.getElementById('vmic').textContent = '⏹';
+  document.getElementById('wf').classList.add('active');
+  document.getElementById('fab-main')?.classList.add('listening');
+
+  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.onresult = e => {
+      document.getElementById('vtxt').value = e.results[0][0].transcript;
+      stopMic();
+      setTimeout(() => sendQuery(document.getElementById('vtxt').value), 200);
+    };
+    recognition.onerror = recognition.onend = stopMic;
+    recognition.start();
+  }
+}
+
+function stopMic() {
+  micActive = false;
+  document.getElementById('vmic').classList.remove('active');
+  document.getElementById('vmic').textContent = '🎙';
+  document.getElementById('wf').classList.remove('active');
+  document.getElementById('fab-main')?.classList.remove('listening');
+  try { recognition?.stop(); } catch {} recognition = null;
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openVoice(); }
+  if (e.key === 'Escape') closeVoice();
+});
+
+// SEND QUERY
+async function sendQuery(q) {
+  document.getElementById('vtxt').value = '';
+  closeVoice();
+  nav('home');
+
+  const card = document.getElementById('home-ai');
+  const txt = document.getElementById('home-ai-text');
+  card.classList.add('show');
+  txt.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  try {
+    const res = await fetch(`${API}/api/brain/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, model: activeModel }),
+    });
+
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let full = '';
+    txt.innerHTML = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6);
+        if (data === '[DONE]') break;
+        try {
+          const { text, error } = JSON.parse(data);
+          if (error) { txt.innerHTML = `<span style="color:var(--red)">${error}</span>`; break; }
+          if (text) { full += text; txt.innerHTML = full; }
+        } catch {}
+      }
+    }
+
+    if ('speechSynthesis' in window && full.length < 500) {
+      const utt = new SpeechSynthesisUtterance(full.replace(/<[^>]*>/g, ''));
+      utt.rate = 1.1;
+      speechSynthesis.speak(utt);
+    }
+  } catch (err) {
+    txt.innerHTML = `<span style="color:var(--text3)">Connecting to PAULI… make sure VPS is running.<br><small>${err.message}</small></span>`;
+  }
+}
+
+// GRAPH
+let graphData = { nodes: [], edges: [] };
+let graphCanvas, graphCtx, gW, gH;
+let gNodes = [], gLinks = [];
+let gHovered = null, gDragging = null, gDown = false, gLast = null;
+let gOffset = { x: 0, y: 0 }, gScale = 1;
+
+const TYPE_COLORS = {
+  company: '#2D5016', product: '#1A4A7A', infra: '#4A1A7A',
+  client: '#C4720A', protocol: '#8B6914', person: '#C0392B',
+};
+
+async function loadGraph() {
+  try {
+    const r = await fetch(`${API}/api/brain/graph`);
+    graphData = await r.json();
+    document.getElementById('graph-stats').textContent = `${graphData.count.nodes} nodes · ${graphData.count.edges} edges`;
+    updateCounts();
+    renderGraph(null);
+  } catch {
+    document.getElementById('graph-stats').textContent = 'VPS offline';
+    graphData = { nodes: [], edges: [], count: { nodes: 0, edges: 0 } };
+  }
+}
+
+function renderGraph(typeFilter) {
+  graphCanvas = document.getElementById('gc');
+  if (!graphCanvas) return;
+  gW = graphCanvas.parentElement.clientWidth - 32;
+  graphCanvas.width = gW;
+  graphCtx = graphCanvas.getContext('2d');
+
+  const filtered = typeFilter
+    ? { ...graphData, nodes: graphData.nodes.filter(n => n.type === typeFilter) }
+    : graphData;
+
+  const cx = gW / 2, cy = graphCanvas.height / 2;
+  gNodes = filtered.nodes.map((n, i) => {
+    const a = (i / (filtered.nodes.length || 1)) * Math.PI * 2;
+    const r = 50 + Math.random() * 60;
+    return { ...n, x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r * 0.7, vx: 0, vy: 0, fx: null, fy: null, size: 8 };
+  });
+
+  const nodeMap = Object.fromEntries(gNodes.map(n => [n.id, n]));
+  gLinks = (graphData.edges || [])
+    .map(e => ({ source: nodeMap[e.source], target: nodeMap[e.target], rel: e.rel }))
+    .filter(l => l.source && l.target);
+
+  if (!graphCanvas._eventsAttached) {
+    graphCanvas._eventsAttached = true;
+    const gp = e => { const r = graphCanvas.getBoundingClientRect(); const t = e.touches?.[0] || e; return { x: t.clientX - r.left, y: t.clientY - r.top }; };
+    const wp = (sx, sy) => ({ x: (sx - gOffset.x) / gScale, y: (sy - gOffset.y) / gScale });
+    const fn = (sx, sy) => { const w = wp(sx, sy); return gNodes.find(n => Math.hypot(n.x - w.x, n.y - w.y) < 12); };
+
+    graphCanvas.addEventListener('mousemove', e => { const p = gp(e); gHovered = fn(p.x, p.y); });
+    graphCanvas.addEventListener('mousedown', e => { gDown = true; const p = gp(e); gLast = p; gDragging = fn(p.x, p.y) || null; });
+    graphCanvas.addEventListener('mouseup', () => { gDown = false; gDragging = null; });
+    graphCanvas.addEventListener('wheel', e => { e.preventDefault(); const f = e.deltaY < 0 ? 1.08 : 0.93; gScale = Math.max(0.2, Math.min(5, gScale * f)); }, { passive: false });
+  }
+
+  if (!graphCanvas._simRunning) {
+    graphCanvas._simRunning = true;
+    simLoop();
+  }
+
+  const counts = {};
+  (graphData.edges || []).forEach(e => { counts[e.source] = (counts[e.source] || 0) + 1; });
+  const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const topEl = document.getElementById('top-nodes');
+  topEl.innerHTML = top.map(([id, count]) => {
+    const node = graphData.nodes.find(n => n.id === id);
+    if (!node) return '';
+    const color = TYPE_COLORS[node.type] || '#666';
+    return `<div class="list-item" onclick="sendQuery('Tell me about ${node.label}')"><div class="item-avatar" style="background:${color}22;font-size:14px;color:${color}">⊕</div><div class="item-body"><div class="item-title">${node.label}</div><div class="item-sub">${count} connections</div></div></div>`;
+  }).join('');
+}
+
+function simLoop() {
+  const cx = gW / 2, cy = (graphCanvas?.height || 300) / 2;
+  gNodes.forEach(n => { if (n.fx !== null) return; n.vx += (cx - n.x) * 0.002; n.vy += (cy - n.y) * 0.002; });
+  gNodes.forEach(n => { n.vx *= 0.85; n.vy *= 0.85; n.x += n.vx; n.y += n.vy; });
+
+  if (graphCtx && graphCanvas) {
+    graphCtx.clearRect(0, 0, gW, graphCanvas.height);
+    graphCtx.save();
+    graphCtx.translate(gOffset.x, gOffset.y);
+    graphCtx.scale(gScale, gScale);
+
+    gLinks.forEach(l => {
+      graphCtx.beginPath(); graphCtx.moveTo(l.source.x, l.source.y); graphCtx.lineTo(l.target.x, l.target.y);
+      graphCtx.strokeStyle = '#E0DDD8'; graphCtx.lineWidth = 0.8; graphCtx.stroke();
+    });
+
+    gNodes.forEach(n => {
+      const r = (n.size || 8) * (n === gHovered ? 1.3 : 1);
+      const col = TYPE_COLORS[n.type] || '#666';
+      graphCtx.beginPath(); graphCtx.arc(n.x, n.y, r, 0, Math.PI * 2);
+      graphCtx.fillStyle = col + '40'; graphCtx.fill();
+      graphCtx.strokeStyle = col + '88'; graphCtx.lineWidth = 1; graphCtx.stroke();
+    });
+    graphCtx.restore();
+  }
+  requestAnimationFrame(simLoop);
+}
+
+function filterGraph(el, type) {
+  document.querySelectorAll('.gchip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  renderGraph(type === 'all' ? null : type);
+}
+
+function updateCounts() {
+  const types = ['company', 'product', 'infra', 'client', 'protocol', 'person'];
+  types.forEach(t => {
+    const count = (graphData.nodes || []).filter(n => n.type === t).length;
+    const el = document.getElementById(`kc-${t}`);
+    if (el) el.textContent = `${count} ${t}s`;
+  });
+}
+
+function loadCounts() {
+  if ((graphData.nodes || []).length > 0) updateCounts();
+  else loadGraph().then(updateCounts);
+}
+
+// SEARCH
+let searchTimer = null;
+async function doSearch(q) {
+  clearTimeout(searchTimer);
+  if (q.length < 2) { document.getElementById('search-results').innerHTML = ''; return; }
+  searchTimer = setTimeout(async () => {
+    try {
+      const r = await fetch(`${API}/api/brain/graph/search?q=${encodeURIComponent(q)}`);
+      const { nodes } = await r.json();
+      const el = document.getElementById('search-results');
+      if (!nodes.length) { el.innerHTML = '<div style="padding:16px 20px;color:var(--text3);">No results</div>'; return; }
+      el.innerHTML = nodes.map(n => {
+        const col = TYPE_COLORS[n.type] || '#666';
+        return `<div class="list-item" onclick="sendQuery('Tell me about ${n.label}')"><div class="item-avatar" style="background:${col}20;color:${col}">⊕</div><div class="item-body"><div class="item-title">${n.label}</div><div class="item-sub">${n.type}</div></div></div>`;
+      }).join('');
+    } catch {
+      document.getElementById('search-results').innerHTML = '';
+    }
+  }, 300);
+}
+
+// FILE UPLOAD
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const res = await fetch(`${API}/api/brain/upload`, { method: 'POST', body: formData });
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const d = JSON.parse(line.slice(6));
+          if (d.status === 'complete') {
+            graphData = await (await fetch(`${API}/api/brain/graph`)).json();
+            updateCounts();
+          }
+        } catch {}
+      }
+    }
+  } catch (e) {
+    console.error('Upload failed:', e);
+  }
+}
+
+// GOOGLE DRIVE SYNC
+async function syncDrive() {
+  const status = document.getElementById('drive-status');
+  status.textContent = 'Syncing…';
+  try {
+    const res = await fetch(`${API}/api/brain/drive`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'sync' }),
+    });
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const lines = decoder.decode(value).split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const d = JSON.parse(line.slice(6));
+          if (d.status === 'sync_complete') status.textContent = `✓ Synced ${d.processed} docs`;
+          if (d.error) status.textContent = `Error: ${d.error}`;
+        } catch {}
+      }
+    }
+  } catch (e) {
+    status.textContent = `Error: ${e.message}`;
+  }
+}
+
+// INIT
+window.addEventListener('load', () => {
+  fetch(`${API}/api/brain/graph`).then(r => r.json()).then(d => { graphData = d; updateCounts(); }).catch(() => {});
+});
+</script>
+</body>
+</html>
