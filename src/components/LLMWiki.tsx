@@ -18,7 +18,7 @@ export const LLMWiki: React.FC = () => {
   const [wikiData, setWikiData] = useState<WikiNode[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load wiki data from LLM.txt files and knowledge graph
+  // Load wiki data from knowledge graph (JSON)
   useEffect(() => {
     const loadWikiData = async () => {
       try {
@@ -49,7 +49,7 @@ export const LLMWiki: React.FC = () => {
             title: project.name,
             content: project.description,
             category: 'project',
-            tags: ['project', project.type, ...project.tags],
+            tags: ['project', project.type, ...(Array.isArray(project.tags) ? project.tags : [])].filter(Boolean),
           });
         });
 
@@ -60,7 +60,7 @@ export const LLMWiki: React.FC = () => {
             title: skill.name,
             content: skill.description,
             category: 'skill',
-            tags: ['skill', ...skill.tools],
+            tags: ['skill', ...(Array.isArray(skill.tools) ? skill.tools : [])].filter(Boolean),
           });
         });
 

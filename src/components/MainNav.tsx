@@ -40,6 +40,9 @@ export const MainNav: React.FC = () => {
             <CavemenToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isOpen}
+              aria-controls="main-nav-mobile-menu"
               className="p-2 text-slate-300 hover:text-white"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -49,7 +52,7 @@ export const MainNav: React.FC = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden pb-4 space-y-2">
+          <div id="main-nav-mobile-menu" className="md:hidden pb-4 space-y-2">
             <Link
               to="/"
               onClick={() => setIsOpen(false)}

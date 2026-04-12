@@ -63,11 +63,15 @@ export default function FileUploadPage() {
         method: 'DELETE',
       });
 
-      if (response.ok) {
-        setFiles((prev) => prev.filter((f) => f.id !== fileId));
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Failed to delete file (${response.status})`);
       }
+
+      setFiles((prev) => prev.filter((f) => f.id !== fileId));
+      setSuccess('File deleted successfully');
     } catch (err) {
-      setError('Failed to delete file');
+      setError(err instanceof Error ? err.message : 'Failed to delete file');
     }
   };
 

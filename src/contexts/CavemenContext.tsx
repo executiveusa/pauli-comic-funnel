@@ -2,6 +2,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type IntensityLevel = 'full' | 'lite' | 'ultra';
 
+// Validate intensity value against allowed types
+const isIntensityLevel = (value: unknown): value is IntensityLevel => {
+  return value === 'full' || value === 'lite' || value === 'ultra';
+};
+
 interface CavemenContextType {
   enabled: boolean;
   intensity: IntensityLevel;
@@ -14,13 +19,23 @@ const CavemenContext = createContext<CavemenContextType | undefined>(undefined);
 
 export const CavemenProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [enabled, setEnabled] = useState<boolean>(() => {
-    const stored = localStorage.getItem('cavemen_mode');
-    return stored ? JSON.parse(stored) : false;
+    try {
+      const stored = localStorage.getItem('cavemen_mode');
+      return stored ? JSON.parse(stored) === true : false;
+    } catch (e) {
+      console.warn('Failed to parse cavemen_mode from localStorage:', e);
+      return false;
+    }
   });
 
   const [intensity, setIntensity] = useState<IntensityLevel>(() => {
-    const stored = localStorage.getItem('cavemen_intensity');
-    return (stored || 'lite') as IntensityLevel;
+    try {
+      const stored = localStorage.getItem('cavemen_intensity');
+      return stored && isIntensityLevel(stored) ? stored : 'full';
+    } catch (e) {
+      console.warn('Failed to parse cavemen_intensity from localStorage:', e);
+      return 'full';
+    }
   });
 
   // Persist to localStorage
