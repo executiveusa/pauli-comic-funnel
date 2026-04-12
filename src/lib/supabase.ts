@@ -1,29 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
+import type { User, Session } from '@supabase/supabase-js';
 
-// Supabase client initialization
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
+// Supabase client initialization - validate required env vars
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing required Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Type definitions
-export interface User {
-  id: string;
-  email: string;
-  user_metadata?: {
-    name?: string;
-    [key: string]: any;
-  };
-}
-
-export interface Session {
-  access_token: string;
-  refresh_token?: string;
-  expires_in: number;
-  expires_at?: number;
-  token_type: string;
-  user: User;
-}
+// Re-export Supabase auth types for use in app
+export type { User, Session } from '@supabase/supabase-js';
 
 // Authentication functions
 export async function signInWithPassword(email: string, password: string) {
@@ -32,9 +21,9 @@ export async function signInWithPassword(email: string, password: string) {
       email,
       password,
     });
-    return { data, error };
+    return { user: data.user ?? null, session: data.session ?? null, error };
   } catch (error) {
-    return { data: null, error: error as Error };
+    return { user: null, session: null, error: error as Error };
   }
 }
 
@@ -44,9 +33,9 @@ export async function signUp(email: string, password: string) {
       email,
       password,
     });
-    return { data, error };
+    return { user: data.user ?? null, session: data.session ?? null, error };
   } catch (error) {
-    return { data: null, error: error as Error };
+    return { user: null, session: null, error: error as Error };
   }
 }
 
@@ -61,10 +50,10 @@ export async function signOut() {
 
 export async function getCurrentUser() {
   try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    return { session, error };
+    const { data: { user }, error } = await supabase.auth.getUser();
+    return { user, error };
   } catch (error) {
-    return { session: null, error: error as Error };
+    return { user: null, error: error as Error };
   }
 }
 
