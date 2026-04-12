@@ -17,31 +17,37 @@ interface UploadedFile {
   uploadedAt: string;
 }
 
-// Configure multer
-const storage = multer.memoryStorage();
+// Configure multer with disk storage to avoid memory exhaustion for large files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOAD_DIR);
+  },
+  filename: (req, file, cb) => {
+    const fileId = uuidv4();
+    cb(null, `${fileId}-${file.originalname}`);
+  },
+});
+
 const upload = multer({
   storage,
   limits: { fileSize: 500 * 1024 * 1024 }
 });
 
-// POST /api/upload - Upload file
+// POST /api/upload - Upload file (disk storage to avoid memory issues)
 router.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file provided' });
     }
 
-    const fileId = uuidv4();
-    const fileName = `${fileId}-${req.file.originalname}`;
-    const filePath = path.join(UPLOAD_DIR, fileName);
-
-    // Save file
-    await fs.writeFile(filePath, req.file.buffer);
+    // File is already saved to disk by multer
+    const stat = await fs.stat(req.file.path);
+    const fileId = req.file.filename.split('-')[0]; // Extract ID from filename
 
     const uploadedFile: UploadedFile = {
       id: fileId,
       name: req.file.originalname,
-      size: req.file.buffer.length,
+      size: stat.size,
       uploadedAt: new Date().toISOString(),
     };
 

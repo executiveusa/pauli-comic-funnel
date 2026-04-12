@@ -22,8 +22,9 @@ export const LLMWiki: React.FC = () => {
   useEffect(() => {
     const loadWikiData = async () => {
       try {
-        // Fetch knowledge graph
-        const graphResponse = await fetch('/KNOWLEDGE_GRAPH.json');
+        // Fetch knowledge graph from public assets
+        const graphResponse = await fetch('/public/KNOWLEDGE_GRAPH.json');
+        if (!graphResponse.ok) throw new Error('Failed to load knowledge graph');
         const graph = await graphResponse.json();
 
         // Transform graph into wiki nodes

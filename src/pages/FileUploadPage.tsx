@@ -59,7 +59,7 @@ export default function FileUploadPage() {
 
   const handleDelete = async (fileId: string) => {
     try {
-      const response = await fetch(`/api/upload/${fileId}`, {
+      const response = await fetch(`/api/files/${fileId}`, {
         method: 'DELETE',
       });
 
