@@ -17,7 +17,7 @@ const wss = new WebSocketServer({ server });
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, './client')));
 
 // Initialize systems
 const rtk = new RTKHook();
@@ -87,9 +87,9 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve React app for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+// Serve React app for all other routes (SPA fallback)
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, './client/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
