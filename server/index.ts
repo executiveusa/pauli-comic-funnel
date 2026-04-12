@@ -7,6 +7,7 @@ import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
 import syncRoutes, { initializeWatchers } from './sync-routes';
 import brainRoutes from './routes/brain';
+import uploadRoutes from './routes/upload';
 import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
@@ -34,6 +35,9 @@ app.use('/api', syncRoutes);
 
 // PAULI Second Brain routes
 app.use('/api/brain', brainRoutes);
+
+// File upload routes
+app.use('/api', uploadRoutes);
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
