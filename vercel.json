@@ -1,47 +1,27 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "name": "pauli-effect",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install --legacy-peer-deps",
+  "devCommand": "npm run dev",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://pauli-effect-api.railway.app/api/:path*" }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "https://pauli-effect-api.railway.app/api/$1"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "VITE_API_URL": "https://pauli-effect-api.railway.app"
-  },
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
       ]
     }
-  ]
+  ],
+  "env": {
+    "VITE_SUPABASE_URL": "https://nfhejlqgvghzafrnmpsl.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5maGVqbHFndmdoemFmcm5tcHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4OTg5NTksImV4cCI6MjA4MzQ3NDk1OX0.7klo0es_oBG3IWtpYfBuY0lxRDPGr9-UwZWshzT_M7Y",
+    "VITE_API_URL": "https://pauli-effect-api.railway.app"
+  }
 }

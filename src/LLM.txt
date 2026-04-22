@@ -1,0 +1,67 @@
+# SRC/ DIRECTORY — FRONTEND APPLICATION
+# React 18.3 + TypeScript + Vite
+# Purpose: User-facing dashboard for PAULI
+
+## STRUCTURE
+├── main.tsx              → Entry point (React.render)
+├── App.tsx               → Root component
+├── components/           → Reusable UI components
+│   ├── ui/              → shadcn/ui primitives (Button, Card, Dialog, etc.)
+│   └── [Feature]/       → Feature-specific components
+├── pages/                → Full-page views (Dashboard, Settings, etc.)
+├── contexts/             → React Context (state management)
+├── hooks/                → Custom React hooks
+├── lib/                  → Utility functions
+├── styles/               → Global CSS
+├── integrations/         → External service integrations
+└── index.css             → Root styles
+
+## KEY COMPONENTS
+- Dashboard: Main UI for PAULI agent interface
+- AgentCard: Displays individual agent status
+- FileUploader: Large file upload (LLM outputs)
+- LLMWiki: Knowledge base viewer
+- CavemenToggle: Token-saving mode switcher
+- KnowledgeGraph: Visual relationship explorer
+
+## CONTEXTS
+- CavemenContext: Controls verbose/brief output mode
+- SelectedContext: Tracks user selections (agents, projects)
+
+## STATE MANAGEMENT
+- React Query (@tanstack/react-query) for API calls
+- Context API for global state (caveman mode, selected items)
+- localStorage for persistence
+
+## INTEGRATION POINTS
+- /server/... (API calls via fetch/axios)
+- @anthropic-ai/sdk for direct Claude calls (optional)
+- Copilot Kit for agentic UI
+
+## STYLING
+- Tailwind CSS + tailwindcss-animate
+- shadcn/ui component library
+- Custom CSS in components/ folder
+
+## DEVELOPMENT
+```bash
+npm run dev       # Start Vite dev server (port 5173)
+npm run build     # Production build
+npm run preview   # Preview production build
+npm run lint      # ESLint check
+```
+
+## ADDING NEW FEATURES
+1. Create component in components/
+2. Add any state to contexts/ if needed
+3. Create page in pages/ if it's a full view
+4. Add route in App.tsx
+5. Update this LLM.txt
+
+## PERFORMANCE NOTES
+- Components use React.memo for expensive renders
+- Lazy loading for route-based code splitting
+- Query caching via React Query
+
+---
+Generated for LLM context. Update when adding new features.

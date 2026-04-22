@@ -7,6 +7,8 @@ import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
 import syncRoutes, { initializeWatchers } from './sync-routes';
 import healthRoutes from './routes/health';
+import brainRoutes from './routes/brain';
+import uploadRoutes from './routes/upload';
 import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
@@ -35,6 +37,12 @@ app.use('/api/agi-open', agiOpenRoutes);
 // ByteRover Sync routes (Triple-Sync)
 app.use('/api', syncRoutes);
 
+// PAULI Second Brain routes
+app.use('/api/brain', brainRoutes);
+
+// File upload routes
+app.use('/api', uploadRoutes);
+
 // =====================================================
 // EMAIL CAPTURE ENDPOINTS
 // =====================================================
@@ -42,7 +50,7 @@ app.use('/api', syncRoutes);
 app.post('/api/email/capture', async (req: Request, res: Response) => {
   try {
     const { email, name, source, referrer, utmSource, utmMedium, utmCampaign } = req.body;
-    
+
     const capture = await prisma.emailCapture.create({
       data: {
         email,
@@ -160,7 +168,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
 app.post('/api/analytics/event', async (req: Request, res: Response) => {
   try {
     const { eventType, eventData, userId, sessionId, pageUrl, referrer } = req.body;
-    
+
     await prisma.analyticsEvent.create({
       data: {
         eventType, eventData, userId, sessionId, pageUrl, referrer,
@@ -295,12 +303,12 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`🚀 Pauli Effect API running on port ${PORT}`);
-  
+
   // Initialize sync engine and watchers
   const syncEngine = getSyncEngine();
   initializeWatchers();
   syncEngine.start().catch(console.error);
-  
+
   console.log('📡 ByteRover Sync Engine initialized');
 });
 

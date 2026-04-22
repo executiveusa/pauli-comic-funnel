@@ -1,0 +1,96 @@
+# AGENTS/ DIRECTORY — AGENT DEFINITIONS & ORCHESTRATION
+# CrewAI framework + Anthropic Claude models
+# Purpose: 19 specialized AI agents, intelligent routing, multi-agent orchestration
+
+## STRUCTURE
+├── index.ts                           → Agent registry + factory
+├── types.ts                           → TypeScript interfaces
+├── intelligent_model_router.py        → Smart model selection
+├── agents/                            → Core agent definitions
+│   ├── pauli-prime/                  → Master orchestrator
+│   ├── nexus/                        → Strategy & market intel
+│   ├── credit/                       → Financial modeling
+│   ├── aria/                         → Creative writing
+│   ├── spectrum/                     → Media production
+│   ├── vega/                         → Code execution
+│   ├── echo/                         → Analytics & learning
+│   ├── winston/                      → Architecture
+│   ├── james/                        → Building/execution
+│   ├── nova/                         → Sales & outreach
+│   └── 9 more specialized agents
+├── pauli_lightning/                  → Health agent + monitoring
+├── custom_handlers/                  → Custom agent behaviors
+├── watchers/                         → Event watchers (file changes, etc.)
+└── [third-party]/                    → Embedded agent repos
+
+## AGENT SYSTEM (19 TOTAL)
+
+### Core Orchestrators
+1. PAULI-PRIME     → Master decision-maker (claude-sonnet-4)
+2. NEXUS          → Strategic planning
+3. CREDIT         → Financial/revenue
+4. ARIA           → Creative content
+5. SPECTRUM       → Media/visual
+6. VEGA           → Code/deployment
+7. ECHO           → Analysis/learning
+8. WINSTON        → Architecture
+9. JAMES          → Implementation
+10. NOVA          → Sales/outreach
+11. JARVIS        → Voice interface
+12-19. Specialized skill orchestrators (UX, DevOps, etc.)
+
+## KEY FILES
+
+### intelligent_model_router.py
+Selects best model for task:
+- Task analysis → Feature extraction
+- Claude Haiku: Simple tasks, cost-sensitive
+- Claude Sonnet: Balanced (default)
+- Claude Opus: Complex reasoning
+- Special handling for code, analysis, creative
+
+### index.ts
+```typescript
+// Export agent factory
+export { AgentFactory };
+// Export individual agents
+export { PAULI_PRIME, NEXUS, CREDIT, ... };
+```
+
+## HOW AGENTS WORK
+
+1. User triggers action (voice, UI, API)
+2. PAULI-PRIME receives task
+3. Routes to appropriate specialized agent(s)
+4. Agent executes via CrewAI framework
+5. Results aggregate back to PAULI-PRIME
+6. Response returned to user
+
+## TASK ROUTING LOGIC
+- Financial query → CREDIT agent
+- Code task → VEGA agent
+- Strategy → NEXUS agent
+- Creative → ARIA agent
+- Analysis → ECHO agent
+
+## ADDING NEW AGENT
+1. Create folder: agents/[agent-name]/
+2. Define in agents/[agent-name]/index.ts
+3. Register in agents/index.ts
+4. Add type to types.ts
+5. Update this LLM.txt
+
+## INTEGRATION WITH FRONTEND
+- Backend loads agent definitions
+- Frontend shows agent status cards
+- User selects agent or auto-routes
+- Real-time logs streamed via WebSocket
+
+## PERFORMANCE NOTES
+- Model selection based on task complexity
+- Parallel execution when independent
+- Caching for repetitive tasks
+- Token usage tracking
+
+---
+Update when adding new agents or modifying routing logic.
