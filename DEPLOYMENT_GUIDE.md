@@ -13,8 +13,8 @@ Complete deployment guide for Railway (backend) and Vercel (frontend).
 
 ### Frontend (Vercel)
 1. Import GitHub repo
-2. Configure build settings
-3. Set API_URL environment variable
+2. Configure build settings (Vite framework preset)
+3. No API_URL env var required (uses relative /api/* paths with Vercel rewrites)
 4. Deploy
 
 See full guide at: https://railway.app/docs and https://vercel.com/docs

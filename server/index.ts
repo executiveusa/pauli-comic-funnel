@@ -6,6 +6,7 @@ import { Client } from '@notionhq/client';
 import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
 import syncRoutes, { initializeWatchers } from './sync-routes';
+import healthRoutes from './routes/health';
 import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
@@ -22,6 +23,9 @@ app.use(logFrontendGeneration);
 app.use(redirectToCopilotKit);
 app.use(enforceCopilotKitUsage);
 
+// Health check routes (must be first for Railway/Kubernetes probes)
+app.use('/api', healthRoutes);
+
 // CopilotKit API routes (rebranded as Pauli Agent UI)
 app.use('/api', copilotKitRoutes);
 
@@ -30,11 +34,6 @@ app.use('/api/agi-open', agiOpenRoutes);
 
 // ByteRover Sync routes (Triple-Sync)
 app.use('/api', syncRoutes);
-
-// Health check
-app.get('/api/health', (_req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'pauli-effect-api' });
-});
 
 // =====================================================
 // EMAIL CAPTURE ENDPOINTS

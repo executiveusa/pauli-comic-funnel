@@ -1,4 +1,4 @@
-import { expect, afterEach, vi } from 'vitest';
+import { expect, afterEach, beforeAll, afterAll, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 
@@ -8,9 +8,16 @@ afterEach(() => {
 });
 
 // Mock environment variables
-process.env.ANTHROPIC_API_KEY = 'test-api-key';
-process.env.COPILOTKIT_API_KEY = 'test-copilotkit-key';
-process.env.NOTION_API_TOKEN = 'test-notion-token';
+beforeAll(() => {
+  vi.stubEnv('ANTHROPIC_API_KEY', 'test-api-key');
+  vi.stubEnv('COPILOTKIT_API_KEY', 'test-copilotkit-key');
+  vi.stubEnv('NOTION_API_TOKEN', 'test-notion-token');
+  vi.stubEnv('NOTION_API_KEY', 'test-notion-key');
+});
+
+afterAll(() => {
+  vi.unstubAllEnvs();
+});
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {

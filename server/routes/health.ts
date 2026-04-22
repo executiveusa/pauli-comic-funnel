@@ -9,15 +9,29 @@ const anthropic = new Anthropic();
 // Basic health check
 router.get('/health', async (_req: Request, res: Response) => {
   const startTime = Date.now();
-  const checks = {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  const checks: {
+    api: string;
+    database: string;
+    anthropic: string;
+    timestamp: string;
+    uptime: number;
+    memory?: NodeJS.MemoryUsage;
+    env?: string;
+  } = {
     api: 'ok',
     database: 'unknown',
     anthropic: 'unknown',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    memory: process.memoryUsage(),
-    env: process.env.NODE_ENV || 'development',
   };
+
+  // Only expose memory/env in non-production
+  if (!isProduction) {
+    checks.memory = process.memoryUsage();
+    checks.env = process.env.NODE_ENV || 'development';
+  }
 
   // Database check
   try {
