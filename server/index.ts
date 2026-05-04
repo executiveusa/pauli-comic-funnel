@@ -6,6 +6,7 @@ import { Client } from '@notionhq/client';
 import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
 import syncRoutes, { initializeWatchers } from './sync-routes';
+import healthRoutes from './routes/health';
 import brainRoutes from './routes/brain';
 import uploadRoutes from './routes/upload';
 import { getSyncEngine } from './services/sync-engine';
@@ -24,6 +25,9 @@ app.use(logFrontendGeneration);
 app.use(redirectToCopilotKit);
 app.use(enforceCopilotKitUsage);
 
+// Health check routes (must be first for Railway/Kubernetes probes)
+app.use('/api', healthRoutes);
+
 // CopilotKit API routes (rebranded as Pauli Agent UI)
 app.use('/api', copilotKitRoutes);
 
@@ -39,11 +43,6 @@ app.use('/api/brain', brainRoutes);
 // File upload routes
 app.use('/api', uploadRoutes);
 
-// Health check
-app.get('/api/health', (_req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'pauli-effect-api' });
-});
-
 // =====================================================
 // EMAIL CAPTURE ENDPOINTS
 // =====================================================
@@ -51,7 +50,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
 app.post('/api/email/capture', async (req: Request, res: Response) => {
   try {
     const { email, name, source, referrer, utmSource, utmMedium, utmCampaign } = req.body;
-    
+
     const capture = await prisma.emailCapture.create({
       data: {
         email,
@@ -169,7 +168,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
 app.post('/api/analytics/event', async (req: Request, res: Response) => {
   try {
     const { eventType, eventData, userId, sessionId, pageUrl, referrer } = req.body;
-    
+
     await prisma.analyticsEvent.create({
       data: {
         eventType, eventData, userId, sessionId, pageUrl, referrer,
@@ -304,12 +303,12 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`🚀 Pauli Effect API running on port ${PORT}`);
-  
+
   // Initialize sync engine and watchers
   const syncEngine = getSyncEngine();
   initializeWatchers();
   syncEngine.start().catch(console.error);
-  
+
   console.log('📡 ByteRover Sync Engine initialized');
 });
 
