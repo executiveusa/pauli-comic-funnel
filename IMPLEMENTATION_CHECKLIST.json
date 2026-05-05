@@ -1,0 +1,547 @@
+{
+  "project": "PAULI EFFECT - PRODUCTION LAUNCH",
+  "status": "READY_FOR_CODEX",
+  "created": "2025-05-05",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "FOUNDATION",
+      "duration_days": 2,
+      "objective": "Database + APIs + Hermes Integration",
+      "status": "NOT_STARTED",
+      "completion_percentage": 0,
+      "items": [
+        {
+          "id": "1A",
+          "name": "Initialize NPM Dependencies",
+          "description": "npm install all packages",
+          "command": "npm install",
+          "verification_command": "npm list | grep react",
+          "status": "NOT_STARTED",
+          "depends_on": [],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "All packages installed, no errors"
+        },
+        {
+          "id": "1B",
+          "name": "Initialize Supabase",
+          "description": "Setup Supabase connection and .env",
+          "command": "npx supabase status",
+          "verification_command": "select count(*) from pg_tables where schemaname='public'",
+          "status": "NOT_STARTED",
+          "depends_on": ["1A"],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "Connection successful, can query database"
+        },
+        {
+          "id": "1C",
+          "name": "Apply Prisma Schema",
+          "description": "Migrate database schema",
+          "command": "npx prisma migrate dev --name init && npx prisma generate",
+          "verification_command": "npx prisma studio",
+          "status": "NOT_STARTED",
+          "depends_on": ["1B"],
+          "estimated_time_minutes": 3,
+          "verification_criteria": "All 11 tables created, indexes present"
+        },
+        {
+          "id": "1D",
+          "name": "Create Hermes CRUD API",
+          "description": "Implement /api/hermes/* endpoints",
+          "file": "server/routes/hermes.ts",
+          "test_file": "server/routes/hermes.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1C"],
+          "estimated_time_minutes": 30,
+          "test_count": 10,
+          "verification_criteria": "All 10+ tests pass, endpoints work"
+        },
+        {
+          "id": "1E",
+          "name": "Create Tasks CRUD API",
+          "description": "Implement /api/tasks/* endpoints",
+          "file": "server/routes/tasks.ts",
+          "test_file": "server/routes/tasks.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1C"],
+          "estimated_time_minutes": 20,
+          "test_count": 8,
+          "verification_criteria": "All 8+ tests pass"
+        },
+        {
+          "id": "1F",
+          "name": "Create Workflows API",
+          "description": "Implement /api/workflows/* endpoints",
+          "file": "server/routes/workflows.ts",
+          "test_file": "server/routes/workflows.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1C"],
+          "estimated_time_minutes": 20,
+          "test_count": 5,
+          "verification_criteria": "All 5+ tests pass"
+        },
+        {
+          "id": "1G",
+          "name": "Register API Routes",
+          "description": "Wire routes in server/index.ts",
+          "file": "server/index.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1D", "1E", "1F"],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "Server starts, /api/health returns 200"
+        },
+        {
+          "id": "1H",
+          "name": "Create API Client Library",
+          "description": "Build src/lib/api.ts",
+          "file": "src/lib/api.ts",
+          "test_file": "src/lib/api.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1G"],
+          "estimated_time_minutes": 15,
+          "test_count": 8,
+          "verification_criteria": "API client works, mocked tests pass"
+        },
+        {
+          "id": "1I",
+          "name": "Wire Hermes to Backend",
+          "description": "Modify HermesRolodex.tsx to use API",
+          "file": "src/components/HermesRolodex.tsx",
+          "test_file": "src/components/HermesRolodex.test.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["1H"],
+          "estimated_time_minutes": 20,
+          "test_count": 6,
+          "verification_criteria": "Component loads contacts from API, CRUD works"
+        },
+        {
+          "id": "1J",
+          "name": "Add Hermes Route",
+          "description": "Add /contacts route to App.tsx",
+          "file": "src/App.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["1I"],
+          "estimated_time_minutes": 2,
+          "verification_criteria": "Route works, page loads"
+        },
+        {
+          "id": "1K",
+          "name": "Update Navigation",
+          "description": "Add link to Contacts in MainNav",
+          "file": "src/components/MainNav.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["1J"],
+          "estimated_time_minutes": 3,
+          "verification_criteria": "Nav link appears and works"
+        },
+        {
+          "id": "1L",
+          "name": "Mobile Responsive Design",
+          "description": "Add media queries to HermesRolodex",
+          "file": "src/components/HermesRolodex.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["1I"],
+          "estimated_time_minutes": 10,
+          "verification_criteria": "Layout works at 320px, 768px, 1440px"
+        },
+        {
+          "id": "1M",
+          "name": "Phase 1 End-to-End Test",
+          "description": "Full integration test of all Phase 1 features",
+          "status": "NOT_STARTED",
+          "depends_on": ["1A", "1B", "1C", "1D", "1E", "1F", "1G", "1H", "1I", "1J", "1K", "1L"],
+          "estimated_time_minutes": 15,
+          "test_scenarios": [
+            "Add contact",
+            "Edit contact",
+            "Delete contact",
+            "Search contacts",
+            "Mobile responsive"
+          ],
+          "verification_criteria": "All scenarios work end-to-end"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "CORE FEATURES",
+      "duration_days": 2,
+      "objective": "Vector Search + Workflows + File Upload",
+      "status": "NOT_STARTED",
+      "completion_percentage": 0,
+      "items": [
+        {
+          "id": "2A",
+          "name": "Setup pgvector",
+          "description": "Configure vector database",
+          "file": "prisma/schema.prisma",
+          "status": "NOT_STARTED",
+          "depends_on": ["1C"],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "pgvector extension installed, embeddings table created"
+        },
+        {
+          "id": "2B",
+          "name": "Create Embeddings API",
+          "description": "Implement /api/embeddings/* endpoints",
+          "file": "server/routes/embeddings.ts",
+          "test_file": "server/routes/embeddings.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["2A"],
+          "estimated_time_minutes": 30,
+          "test_count": 5,
+          "verification_criteria": "Can create and search embeddings"
+        },
+        {
+          "id": "2C",
+          "name": "Create File Upload Pipeline",
+          "description": "Enhance file upload with chunking and embeddings",
+          "file": "server/routes/upload.ts",
+          "test_file": "server/routes/upload.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["2B"],
+          "estimated_time_minutes": 30,
+          "test_count": 5,
+          "verification_criteria": "Can upload file, content searchable"
+        },
+        {
+          "id": "2D",
+          "name": "Create Workflow Engine",
+          "description": "Implement workflow execution logic",
+          "file": "server/services/workflow-engine.ts",
+          "test_file": "server/services/workflow-engine.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1F"],
+          "estimated_time_minutes": 30,
+          "test_count": 5,
+          "verification_criteria": "Workflow executes and completes"
+        },
+        {
+          "id": "2E",
+          "name": "Create Task Form Component",
+          "description": "Build TaskForm.tsx",
+          "file": "src/components/TaskForm.tsx",
+          "test_file": "src/components/TaskForm.test.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["1H"],
+          "estimated_time_minutes": 20,
+          "test_count": 4,
+          "verification_criteria": "Form renders, validation works, submit creates task"
+        },
+        {
+          "id": "2F",
+          "name": "Create Tasks Page",
+          "description": "Build Tasks.tsx page",
+          "file": "src/pages/Tasks.tsx",
+          "test_file": "src/pages/Tasks.test.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["2E"],
+          "estimated_time_minutes": 20,
+          "test_count": 5,
+          "verification_criteria": "Tasks page works, list/filter/create functional"
+        },
+        {
+          "id": "2G",
+          "name": "Create Workflows Page",
+          "description": "Build Workflows.tsx page",
+          "file": "src/pages/Workflows.tsx",
+          "test_file": "src/pages/Workflows.test.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["2D"],
+          "estimated_time_minutes": 25,
+          "test_count": 5,
+          "verification_criteria": "Can create and execute workflows"
+        },
+        {
+          "id": "2H",
+          "name": "Add Phase 2 Routes",
+          "description": "Add /tasks and /workflows routes to App.tsx",
+          "file": "src/App.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["2F", "2G"],
+          "estimated_time_minutes": 3,
+          "verification_criteria": "Routes work"
+        },
+        {
+          "id": "2I",
+          "name": "Phase 2 End-to-End Test",
+          "description": "Full feature test",
+          "status": "NOT_STARTED",
+          "depends_on": ["2A", "2B", "2C", "2D", "2E", "2F", "2G", "2H"],
+          "estimated_time_minutes": 20,
+          "verification_criteria": "Upload/search/workflows all work"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "AGENTS + INTEGRATIONS",
+      "duration_days": 2,
+      "objective": "WhatsApp + Voice + PAULI Orchestrator",
+      "status": "NOT_STARTED",
+      "completion_percentage": 0,
+      "items": [
+        {
+          "id": "3A",
+          "name": "Setup Twilio",
+          "description": "Configure Twilio account and credentials",
+          "status": "NOT_STARTED",
+          "depends_on": ["1A"],
+          "estimated_time_minutes": 10,
+          "verification_criteria": "Twilio client initializes, can send SMS"
+        },
+        {
+          "id": "3B",
+          "name": "Create WhatsApp Webhook",
+          "description": "Implement WhatsApp message handler",
+          "file": "server/webhooks/whatsapp.ts",
+          "test_file": "server/webhooks/whatsapp.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["3A", "1G"],
+          "estimated_time_minutes": 30,
+          "test_count": 5,
+          "verification_criteria": "WhatsApp message received, response sent"
+        },
+        {
+          "id": "3C",
+          "name": "Create Voice Handler",
+          "description": "Implement voice call handling",
+          "file": "server/webhooks/voice.ts",
+          "test_file": "server/webhooks/voice.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["3A", "1G"],
+          "estimated_time_minutes": 30,
+          "test_count": 4,
+          "verification_criteria": "Voice call transcribed, response played"
+        },
+        {
+          "id": "3D",
+          "name": "Create Command Parser",
+          "description": "Parse /task, /remember, /search commands",
+          "file": "server/services/command-parser.ts",
+          "test_file": "server/services/command-parser.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["3B", "3C"],
+          "estimated_time_minutes": 20,
+          "test_count": 5,
+          "verification_criteria": "Commands parsed correctly"
+        },
+        {
+          "id": "3E",
+          "name": "Initialize PAULI Agent",
+          "description": "Create PAULI orchestrator",
+          "file": "agents/pauli/orchestrator.py",
+          "test_file": "agents/pauli/test_orchestrator.py",
+          "status": "NOT_STARTED",
+          "depends_on": ["1A"],
+          "estimated_time_minutes": 30,
+          "test_count": 5,
+          "verification_criteria": "Agent receives and processes tasks"
+        },
+        {
+          "id": "3F",
+          "name": "Create Hermes Agent",
+          "description": "Contact memory and management agent",
+          "file": "agents/hermes/contact_agent.py",
+          "test_file": "agents/hermes/test_contact_agent.py",
+          "status": "NOT_STARTED",
+          "depends_on": ["3E"],
+          "estimated_time_minutes": 20,
+          "test_count": 4,
+          "verification_criteria": "Handles contact-related tasks"
+        },
+        {
+          "id": "3G",
+          "name": "Create Agent Dispatch API",
+          "description": "Implement /api/agents/* endpoints",
+          "file": "server/routes/agents.ts",
+          "test_file": "server/routes/agents.test.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["3E"],
+          "estimated_time_minutes": 20,
+          "test_count": 5,
+          "verification_criteria": "Can dispatch and track tasks"
+        },
+        {
+          "id": "3H",
+          "name": "Setup Real-Time Updates (SSE)",
+          "description": "Create Server-Sent Events for live updates",
+          "file": "server/routes/events.ts",
+          "status": "NOT_STARTED",
+          "depends_on": ["1G"],
+          "estimated_time_minutes": 20,
+          "test_count": 3,
+          "verification_criteria": "Frontend receives real-time updates"
+        },
+        {
+          "id": "3I",
+          "name": "Create Agent Status Dashboard",
+          "description": "Build AgentStatus.tsx component",
+          "file": "src/components/AgentStatus.tsx",
+          "test_file": "src/components/AgentStatus.test.tsx",
+          "status": "NOT_STARTED",
+          "depends_on": ["3H"],
+          "estimated_time_minutes": 20,
+          "test_count": 4,
+          "verification_criteria": "Shows real-time agent status"
+        },
+        {
+          "id": "3J",
+          "name": "Phase 3 End-to-End Test",
+          "description": "Full agent integration test",
+          "status": "NOT_STARTED",
+          "depends_on": ["3A", "3B", "3C", "3D", "3E", "3F", "3G", "3H", "3I"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "WhatsApp/Voice/agents all work together"
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "DEPLOYMENT",
+      "duration_days": 1,
+      "objective": "Production ready deployment",
+      "status": "NOT_STARTED",
+      "completion_percentage": 0,
+      "items": [
+        {
+          "id": "4A",
+          "name": "Setup GitHub Actions",
+          "description": "Create CI/CD pipeline",
+          "file": ".github/workflows/deploy.yml",
+          "status": "NOT_STARTED",
+          "depends_on": ["2I"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "Pipeline runs on commit"
+        },
+        {
+          "id": "4B",
+          "name": "Docker Configuration",
+          "description": "Create Dockerfile for backend",
+          "file": "Dockerfile",
+          "status": "NOT_STARTED",
+          "depends_on": ["4A"],
+          "estimated_time_minutes": 15,
+          "verification_criteria": "Docker image builds successfully"
+        },
+        {
+          "id": "4C",
+          "name": "Deploy to Vercel",
+          "description": "Deploy frontend to production",
+          "status": "NOT_STARTED",
+          "depends_on": ["4A"],
+          "estimated_time_minutes": 15,
+          "verification_criteria": "Frontend accessible at Vercel URL"
+        },
+        {
+          "id": "4D",
+          "name": "Deploy to Coolify",
+          "description": "Deploy backend and database to Hostinger",
+          "status": "NOT_STARTED",
+          "depends_on": ["4B"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "Backend accessible, health check passes"
+        },
+        {
+          "id": "4E",
+          "name": "Setup Monitoring",
+          "description": "Configure error logging, performance monitoring",
+          "status": "NOT_STARTED",
+          "depends_on": ["4D"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "Monitoring active, alerts configured"
+        },
+        {
+          "id": "4F",
+          "name": "Production Testing",
+          "description": "Full end-to-end test in production",
+          "status": "NOT_STARTED",
+          "depends_on": ["4C", "4D", "4E"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "All features work in production"
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "FINAL VERIFICATION",
+      "duration_days": 0.5,
+      "objective": "Quality assurance and launch",
+      "status": "NOT_STARTED",
+      "completion_percentage": 0,
+      "items": [
+        {
+          "id": "5A",
+          "name": "All Tests Passing",
+          "description": "Run full test suite",
+          "command": "npm run test && npm run test:integration && npm run test:e2e",
+          "status": "NOT_STARTED",
+          "depends_on": ["4F"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "100% of tests pass"
+        },
+        {
+          "id": "5B",
+          "name": "Zero TypeScript Errors",
+          "description": "Verify type safety",
+          "command": "npx tsc --noEmit",
+          "status": "NOT_STARTED",
+          "depends_on": ["4F"],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "Zero errors reported"
+        },
+        {
+          "id": "5C",
+          "name": "Security Audit",
+          "description": "Check for vulnerabilities",
+          "command": "npm audit && npm run security-check",
+          "status": "NOT_STARTED",
+          "depends_on": ["4F"],
+          "estimated_time_minutes": 10,
+          "verification_criteria": "Zero critical vulnerabilities"
+        },
+        {
+          "id": "5D",
+          "name": "Performance Check",
+          "description": "Lighthouse audit",
+          "command": "npm run build && npx lighthouse https://your-domain.com",
+          "status": "NOT_STARTED",
+          "depends_on": ["4F"],
+          "estimated_time_minutes": 10,
+          "verification_criteria": "Lighthouse score 90+ on all metrics"
+        },
+        {
+          "id": "5E",
+          "name": "Documentation Complete",
+          "description": "Verify all docs are accurate",
+          "status": "NOT_STARTED",
+          "depends_on": ["4F"],
+          "estimated_time_minutes": 30,
+          "verification_criteria": "API docs updated, deployment guide written"
+        },
+        {
+          "id": "5F",
+          "name": "LAUNCH",
+          "description": "Mark as production ready",
+          "status": "NOT_STARTED",
+          "depends_on": ["5A", "5B", "5C", "5D", "5E"],
+          "estimated_time_minutes": 5,
+          "verification_criteria": "All items complete, team notified"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 5,
+    "total_checklist_items": 47,
+    "estimated_total_hours": 40,
+    "estimated_total_days": 7,
+    "success_criteria": {
+      "phase_1": "Hermes CRUD fully functional with mobile design",
+      "phase_2": "Vector search and workflows working",
+      "phase_3": "WhatsApp, voice, and agents integrated",
+      "phase_4": "Deployed to production",
+      "phase_5": "Quality gates passed, ready for users"
+    }
+  }
+}

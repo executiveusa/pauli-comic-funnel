@@ -1,0 +1,681 @@
+{
+  "project": {
+    "name": "PAULI EFFECT - PRODUCTION LAUNCH",
+    "version": "1.0.0",
+    "status": "HANDOFF_TO_CODEX",
+    "deployment": {
+      "frontend": "Vercel",
+      "backend": "Self-hosted (Hostinger + Coolify)",
+      "database": "Self-hosted Supabase",
+      "region": "Primary (configurable)"
+    }
+  },
+  "architecture": {
+    "frontend": {
+      "framework": "React 18.3.1",
+      "build_tool": "Vite 5.4.1",
+      "package_manager": "npm",
+      "typescript": "5.5.3",
+      "styling": "Tailwind CSS 3.4.11",
+      "ui_library": "shadcn/ui",
+      "deployment": "Vercel",
+      "port": 5173
+    },
+    "backend": {
+      "framework": "Express 5.2.1",
+      "runtime": "Node.js 18+",
+      "language": "TypeScript 5.5.3",
+      "orm": "Prisma 5.22.0",
+      "database": "PostgreSQL (Supabase)",
+      "job_queue": "BullMQ + Redis",
+      "deployment": "Hostinger (Docker via Coolify)",
+      "port": 3001
+    },
+    "agents": {
+      "framework": "CrewAI",
+      "runtime": "Python 3.11+",
+      "package_manager": "uv",
+      "deployment": "Hostinger (Docker via Coolify)",
+      "services": ["PAULI", "HERMES", "NEXUS", "CREDIT", "ARIA", "SPECTRUM", "VEGA"]
+    },
+    "integrations": {
+      "messaging": [
+        {
+          "name": "WhatsApp",
+          "provider": "Twilio",
+          "api_version": "latest",
+          "webhook_path": "/api/webhooks/whatsapp",
+          "rate_limit": "1000/hour"
+        },
+        {
+          "name": "Voice",
+          "provider": "Twilio",
+          "api_version": "latest",
+          "webhook_path": "/api/webhooks/voice",
+          "transcription": "Whisper API"
+        }
+      ],
+      "database": {
+        "name": "Supabase",
+        "type": "PostgreSQL",
+        "extensions": ["pgvector", "uuid-ossp", "pg_trgm"],
+        "hosting": "Self-hosted",
+        "backup_strategy": "Daily automated"
+      },
+      "authentication": {
+        "method": "Supabase Auth",
+        "providers": ["Email/Password", "OAuth (optional)"],
+        "mfa": true,
+        "session_duration": "24 hours"
+      },
+      "vector_search": {
+        "type": "pgvector",
+        "embedding_model": "text-embedding-3-small",
+        "embedding_provider": "OpenAI",
+        "dimension": 1536,
+        "similarity_metric": "cosine"
+      }
+    }
+  },
+  "dependencies": {
+    "critical": [
+      {
+        "package": "react",
+        "version": "^18.3.1",
+        "reason": "UI framework",
+        "verification": "Can import React component"
+      },
+      {
+        "package": "@supabase/supabase-js",
+        "version": "^2.90.1",
+        "reason": "Database client",
+        "verification": "Can connect to Supabase"
+      },
+      {
+        "package": "prisma",
+        "version": "^5.22.0",
+        "reason": "ORM",
+        "verification": "Schema applies without errors"
+      },
+      {
+        "package": "express",
+        "version": "^5.2.1",
+        "reason": "Web framework",
+        "verification": "Server starts on port 3001"
+      },
+      {
+        "package": "twilio",
+        "version": "^4.0.0",
+        "reason": "WhatsApp + Voice",
+        "verification": "Can initialize Twilio client"
+      }
+    ],
+    "secondary": [
+      "react-router-dom@^6.26.2",
+      "@tanstack/react-query@^5.56.2",
+      "zod@^3.23.8",
+      "typescript-eslint@^8.0.1",
+      "vitest@^2.0.0"
+    ],
+    "excluded": [
+      "eigent-main",
+      "pauli-unified-chat",
+      "postiz-app-main",
+      "litellm-main(2)",
+      "mcp-servers",
+      "motion-primitives-main(1)",
+      "cult-ui-main.zip"
+    ]
+  },
+  "database_schema": {
+    "version": "1.0.0",
+    "migrations": [
+      {
+        "name": "001_initial_schema",
+        "tables": [
+          "users",
+          "sessions",
+          "contacts",
+          "tasks",
+          "workflows",
+          "events",
+          "documents",
+          "embeddings",
+          "agent_runs",
+          "messages",
+          "audit_log"
+        ],
+        "verification": "All tables created, indexes added, constraints validated"
+      }
+    ]
+  },
+  "api_endpoints": {
+    "hermes": {
+      "contacts": {
+        "list": {
+          "method": "GET",
+          "path": "/api/hermes/contacts",
+          "auth": true,
+          "response": {
+            "type": "array",
+            "items": {
+              "id": "number",
+              "name": "string",
+              "role": "string",
+              "email": "string",
+              "phone": "string",
+              "company": "string",
+              "location": "string",
+              "tags": "array<string>",
+              "strength": "enum(strong|medium|fading)",
+              "lastContact": "ISO8601",
+              "contextMemory": "array",
+              "events": "array",
+              "createdAt": "ISO8601",
+              "updatedAt": "ISO8601"
+            }
+          },
+          "errors": {
+            "401": "Unauthorized",
+            "500": "Server error"
+          }
+        },
+        "get": {
+          "method": "GET",
+          "path": "/api/hermes/contacts/:id",
+          "auth": true,
+          "response": "Contact object"
+        },
+        "create": {
+          "method": "POST",
+          "path": "/api/hermes/contacts",
+          "auth": true,
+          "body": {
+            "name": "string (required, min:1, max:255)",
+            "role": "string (max:255)",
+            "email": "string (email format)",
+            "phone": "string",
+            "company": "string",
+            "location": "string",
+            "tags": "array<string>",
+            "notes": "string",
+            "birthday": "ISO8601"
+          },
+          "validation": "Schema validation with Zod",
+          "response": "Created contact with ID"
+        },
+        "update": {
+          "method": "PUT",
+          "path": "/api/hermes/contacts/:id",
+          "auth": true,
+          "body": "Partial contact object",
+          "response": "Updated contact"
+        },
+        "delete": {
+          "method": "DELETE",
+          "path": "/api/hermes/contacts/:id",
+          "auth": true,
+          "response": { "deleted": true, "id": "number" }
+        },
+        "search": {
+          "method": "GET",
+          "path": "/api/hermes/contacts/search?q=:query&limit=:limit",
+          "auth": true,
+          "response": "array<Contact>"
+        },
+        "fuzzy_recall": {
+          "method": "POST",
+          "path": "/api/hermes/fuzzy-recall",
+          "auth": true,
+          "body": {
+            "query": "string",
+            "limit": "number (default: 5)"
+          },
+          "response": "array<{ contact: Contact, match: string, confidence: 'high'|'medium'|'low' }>"
+        }
+      }
+    },
+    "tasks": {
+      "list": {
+        "method": "GET",
+        "path": "/api/tasks",
+        "auth": true,
+        "query": {
+          "status": "open|closed|all",
+          "priority": "high|medium|low",
+          "limit": "number",
+          "offset": "number"
+        }
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/tasks",
+        "auth": true,
+        "body": {
+          "title": "string (required)",
+          "description": "string",
+          "priority": "high|medium|low",
+          "due_date": "ISO8601",
+          "assigned_to": "string (contact ID)"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/api/tasks/:id",
+        "auth": true,
+        "body": "Partial task object"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/api/tasks/:id",
+        "auth": true
+      }
+    },
+    "workflows": {
+      "list": {
+        "method": "GET",
+        "path": "/api/workflows",
+        "auth": true
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/workflows",
+        "auth": true,
+        "body": {
+          "name": "string",
+          "description": "string",
+          "steps": "array<WorkflowStep>",
+          "trigger": "string (manual|scheduled|webhook)"
+        }
+      },
+      "execute": {
+        "method": "POST",
+        "path": "/api/workflows/:id/execute",
+        "auth": true,
+        "body": {
+          "input": "object (context for workflow)"
+        },
+        "response": {
+          "run_id": "string",
+          "status": "queued|running|completed|failed"
+        }
+      },
+      "status": {
+        "method": "GET",
+        "path": "/api/workflows/:id/status",
+        "auth": true,
+        "response": {
+          "run_id": "string",
+          "status": "queued|running|completed|failed",
+          "progress": "number (0-100)",
+          "result": "object"
+        }
+      }
+    },
+    "messages": {
+      "whatsapp_webhook": {
+        "method": "POST",
+        "path": "/api/webhooks/whatsapp",
+        "auth": false,
+        "signature_verification": "Twilio signature check",
+        "body": {
+          "From": "string (phone number)",
+          "Body": "string (message text)",
+          "MediaUrl": "string (optional)"
+        },
+        "handler": "Process message, dispatch to PAULI, send response"
+      },
+      "voice_webhook": {
+        "method": "POST",
+        "path": "/api/webhooks/voice",
+        "auth": false,
+        "signature_verification": "Twilio signature check",
+        "body": "Twilio voice event",
+        "handler": "Transcribe, dispatch to PAULI, generate response"
+      }
+    },
+    "embeddings": {
+      "create": {
+        "method": "POST",
+        "path": "/api/embeddings/create",
+        "auth": true,
+        "body": {
+          "text": "string",
+          "metadata": "object"
+        },
+        "response": {
+          "embedding": "array<number>",
+          "id": "string"
+        }
+      },
+      "search": {
+        "method": "POST",
+        "path": "/api/embeddings/search",
+        "auth": true,
+        "body": {
+          "query": "string",
+          "limit": "number",
+          "threshold": "number (0-1)"
+        },
+        "response": "array<{ id, text, metadata, similarity }>"
+      }
+    },
+    "agents": {
+      "dispatch": {
+        "method": "POST",
+        "path": "/api/agents/dispatch",
+        "auth": true,
+        "body": {
+          "agent": "string (PAULI|HERMES|NEXUS|...)",
+          "task": "string",
+          "context": "object",
+          "priority": "high|normal|low"
+        },
+        "response": {
+          "run_id": "string",
+          "status": "queued"
+        }
+      },
+      "status": {
+        "method": "GET",
+        "path": "/api/agents/:run_id/status",
+        "auth": true,
+        "response": {
+          "run_id": "string",
+          "agent": "string",
+          "status": "queued|running|completed|failed",
+          "progress": "number",
+          "result": "object"
+        }
+      }
+    }
+  },
+  "frontend_requirements": {
+    "pages": {
+      "landing": {
+        "path": "/",
+        "auth_required": false,
+        "components": ["Hero", "Features", "Pricing", "CTA"],
+        "test_criteria": "Page loads, all buttons clickable, responsive"
+      },
+      "login": {
+        "path": "/login",
+        "auth_required": false,
+        "components": ["EmailInput", "PasswordInput", "SignInButton", "SignUpToggle"],
+        "test_criteria": "Can sign in, validation works, errors display"
+      },
+      "dashboard": {
+        "path": "/dashboard",
+        "auth_required": true,
+        "components": ["StatsCards", "AgentStatus", "RecentTasks", "QuickActions"],
+        "test_criteria": "Shows user data, stats update, real-time agent status"
+      },
+      "contacts": {
+        "path": "/contacts",
+        "auth_required": true,
+        "components": ["HermesRolodex", "ContactForm", "SearchBar"],
+        "test_criteria": "Can add/edit/delete, search works, graph view functional"
+      },
+      "tasks": {
+        "path": "/tasks",
+        "auth_required": true,
+        "components": ["TaskList", "TaskForm", "StatusFilter"],
+        "test_criteria": "Can create/complete tasks, filters work"
+      },
+      "workflows": {
+        "path": "/workflows",
+        "auth_required": true,
+        "components": ["WorkflowBuilder", "ExecutionHistory", "StatusMonitor"],
+        "test_criteria": "Can create workflow, execute it, monitor progress"
+      },
+      "settings": {
+        "path": "/settings",
+        "auth_required": true,
+        "components": ["ProfileEditor", "NotificationPrefs", "IntegrationConfig"],
+        "test_criteria": "Can update settings, changes persist"
+      }
+    },
+    "mobile_requirements": {
+      "responsive_breakpoints": [320, 480, 768, 1024, 1440],
+      "touch_targets": "minimum 44px",
+      "performance": {
+        "first_contentful_paint": "< 2s",
+        "largest_contentful_paint": "< 4s",
+        "cumulative_layout_shift": "< 0.1"
+      },
+      "offline_support": "Service worker, IndexedDB cache",
+      "pwa_manifest": "Yes, installable"
+    }
+  },
+  "backend_requirements": {
+    "middleware": [
+      {
+        "name": "authentication",
+        "implementation": "JWT verification",
+        "applies_to": "All /api/* routes except webhooks"
+      },
+      {
+        "name": "error_handling",
+        "implementation": "Global try/catch with proper HTTP status codes"
+      },
+      {
+        "name": "logging",
+        "implementation": "Winston/Pino with request/response logging"
+      },
+      {
+        "name": "rate_limiting",
+        "implementation": "Redis-based rate limiter"
+      },
+      {
+        "name": "validation",
+        "implementation": "Zod schema validation on all inputs"
+      },
+      {
+        "name": "cors",
+        "implementation": "CORS configured for Vercel frontend"
+      }
+    ],
+    "database_queries": {
+      "performance_targets": {
+        "simple_select": "< 50ms",
+        "join_query": "< 100ms",
+        "vector_search": "< 200ms",
+        "bulk_insert": "< 500ms"
+      },
+      "indexing_strategy": "Indexes on frequently queried columns and foreign keys"
+    }
+  },
+  "integration_requirements": {
+    "whatsapp": {
+      "provider": "Twilio",
+      "endpoints": {
+        "webhook_url": "/api/webhooks/whatsapp",
+        "status_callback": "/api/webhooks/whatsapp/status"
+      },
+      "features": [
+        "Receive text messages",
+        "Send text messages",
+        "Receive voice notes (transcribe)",
+        "Send image/file",
+        "Command parsing (/task, /remember, /search)"
+      ],
+      "test_criteria": "Can receive message, PAULI processes it, response sent within 3s"
+    },
+    "voice": {
+      "provider": "Twilio",
+      "features": [
+        "Incoming call handling",
+        "Voice transcription (Whisper API)",
+        "TTS response generation (Claude)",
+        "Recording storage"
+      ],
+      "test_criteria": "Can call, transcription works, response spoken back"
+    },
+    "embeddings": {
+      "provider": "OpenAI",
+      "model": "text-embedding-3-small",
+      "test_criteria": "Can embed text, search returns relevant results"
+    },
+    "agent_communication": {
+      "type": "Job queue (BullMQ + Redis)",
+      "test_criteria": "Can dispatch task, agent picks it up, result returned"
+    }
+  },
+  "testing_requirements": {
+    "unit_tests": {
+      "coverage_target": "80%",
+      "framework": "Vitest",
+      "location": "**/*.test.ts",
+      "run_command": "npm run test"
+    },
+    "integration_tests": {
+      "coverage_target": "70%",
+      "framework": "Vitest + Supertest",
+      "test_scenarios": [
+        "API endpoint returns correct data",
+        "Database operations work",
+        "Webhooks process correctly",
+        "Authentication flow works"
+      ]
+    },
+    "e2e_tests": {
+      "framework": "Playwright",
+      "test_scenarios": [
+        "User can sign up and log in",
+        "User can add a contact",
+        "User can create a task",
+        "User can see agent status",
+        "WhatsApp message is processed",
+        "Voice call is transcribed"
+      ]
+    },
+    "performance_tests": {
+      "tool": "Lighthouse",
+      "targets": {
+        "performance": 90,
+        "accessibility": 95,
+        "best_practices": 90,
+        "seo": 90
+      }
+    }
+  },
+  "deployment": {
+    "frontend": {
+      "platform": "Vercel",
+      "build_command": "npm run build",
+      "environment_variables": [
+        "VITE_API_URL",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+      ],
+      "preview_deployment": "Yes",
+      "auto_deploy": "On merge to main"
+    },
+    "backend": {
+      "platform": "Self-hosted (Hostinger via Coolify)",
+      "containerization": "Docker",
+      "environment_variables": [
+        "DATABASE_URL",
+        "TWILIO_ACCOUNT_SID",
+        "TWILIO_AUTH_TOKEN",
+        "TWILIO_PHONE_NUMBER",
+        "OPENAI_API_KEY",
+        "JWT_SECRET"
+      ],
+      "port_mapping": "3001:3001",
+      "health_check": "GET /api/health returns 200",
+      "restart_policy": "always",
+      "resource_limits": {
+        "memory": "1GB",
+        "cpu": "1"
+      }
+    },
+    "database": {
+      "platform": "Self-hosted Supabase",
+      "container": "Docker (PostgreSQL 15)",
+      "backup": {
+        "frequency": "Daily",
+        "retention": "30 days",
+        "method": "pg_dump to S3"
+      },
+      "monitoring": "Query performance, connection count, disk usage"
+    }
+  },
+  "dos_and_donts": {
+    "do": [
+      "Write tests for every new endpoint",
+      "Use TypeScript strictly (no any)",
+      "Validate all user input with Zod",
+      "Log all errors with context",
+      "Use environment variables for secrets",
+      "Add database indexes for frequently queried fields",
+      "Implement pagination for list endpoints",
+      "Use connection pooling for database",
+      "Add rate limiting to public endpoints",
+      "Monitor production with logs and metrics"
+    ],
+    "dont": [
+      "Don't commit secrets to git",
+      "Don't use hardcoded API keys",
+      "Don't make blocking database queries",
+      "Don't skip validation",
+      "Don't deploy without tests",
+      "Don't use eval() or dynamic imports",
+      "Don't create unbounded queries (always limit)",
+      "Don't trust user input",
+      "Don't ignore TypeScript errors",
+      "Don't deploy without monitoring"
+    ]
+  },
+  "known_issues_and_mitigations": [
+    {
+      "issue": "Vector search might be slow on first run",
+      "mitigation": "Implement caching, show loading state"
+    },
+    {
+      "issue": "Twilio webhooks might timeout",
+      "mitigation": "Use queued response pattern, respond immediately"
+    },
+    {
+      "issue": "Large file uploads could fail",
+      "mitigation": "Implement chunked upload, show progress"
+    },
+    {
+      "issue": "Agent runs might take long time",
+      "mitigation": "Async processing with status polling"
+    }
+  ],
+  "success_criteria": {
+    "phase_1_complete": [
+      "All npm packages install without errors",
+      "Prisma schema applies successfully",
+      "Hermes CRUD endpoints all respond with correct data",
+      "Frontend can add/edit/delete contacts",
+      "Mobile responsive on 320px and 1440px",
+      "No TypeScript errors",
+      "All 80+ unit tests pass"
+    ],
+    "phase_2_complete": [
+      "Vector embeddings created and searchable",
+      "Task management fully functional",
+      "Workflow execution works end-to-end",
+      "File upload pipeline tested",
+      "All 50+ integration tests pass"
+    ],
+    "phase_3_complete": [
+      "WhatsApp webhook receives and processes messages",
+      "Voice call can be made, transcribed, responded to",
+      "PAULI agent dispatches tasks correctly",
+      "All agents functional",
+      "All 30+ e2e tests pass"
+    ],
+    "production_ready": [
+      "Lighthouse score 90+ all metrics",
+      "Zero security vulnerabilities",
+      "Uptime monitoring in place",
+      "Auto-scaling configured",
+      "Disaster recovery plan documented",
+      "SLA met (99.5% uptime)"
+    ]
+  }
+}

@@ -1,0 +1,535 @@
+{
+  "testing_framework": {
+    "unit": "Vitest",
+    "integration": "Vitest + Supertest",
+    "e2e": "Playwright",
+    "coverage_tool": "Vitest/Nyc"
+  },
+  "test_structure": {
+    "unit_tests": {
+      "location": "**/*.test.ts",
+      "pattern": "vitest.config.ts includes: { include: ['**/*.test.ts'] }",
+      "coverage_target": "80%",
+      "run_command": "npm run test"
+    },
+    "integration_tests": {
+      "location": "**/*.integration.test.ts",
+      "pattern": "vitest.config.ts includes: { include: ['**/*.integration.test.ts'] }",
+      "coverage_target": "70%",
+      "run_command": "npm run test:integration"
+    },
+    "e2e_tests": {
+      "location": "e2e/**/*.spec.ts",
+      "framework": "Playwright",
+      "run_command": "npm run test:e2e"
+    }
+  },
+  "test_suite": [
+    {
+      "phase": 1,
+      "feature": "Hermes CRUD",
+      "tests": [
+        {
+          "name": "api.hermes.list returns array",
+          "test": "GET /api/hermes",
+          "assert": "response.status === 200 && Array.isArray(response.body)"
+        },
+        {
+          "name": "api.hermes.create stores in database",
+          "test": "POST /api/hermes { name, email, role }",
+          "assert": "response.status === 201 && response.body.id exists && query db shows record"
+        },
+        {
+          "name": "api.hermes.get returns single contact",
+          "test": "GET /api/hermes/:id (after create)",
+          "assert": "response.status === 200 && response.body.name matches"
+        },
+        {
+          "name": "api.hermes.update modifies existing",
+          "test": "PUT /api/hermes/:id { role: 'CTO' }",
+          "assert": "response.status === 200 && db record updated"
+        },
+        {
+          "name": "api.hermes.delete removes from database",
+          "test": "DELETE /api/hermes/:id",
+          "assert": "response.status === 200 && query db shows gone"
+        },
+        {
+          "name": "api.hermes.search finds matching contacts",
+          "test": "GET /api/hermes/search?q=John",
+          "assert": "response.status === 200 && results.length > 0"
+        },
+        {
+          "name": "api.hermes.fuzzyRecall returns similar contacts",
+          "test": "POST /api/hermes/fuzzy-recall { query: 'guy with red boots' }",
+          "assert": "response.status === 200 && results include close match"
+        },
+        {
+          "name": "Validation rejects invalid email",
+          "test": "POST /api/hermes { email: 'invalid' }",
+          "assert": "response.status === 400 && error message shown"
+        },
+        {
+          "name": "HermesRolodex component renders",
+          "test": "render(<HermesRolodex />)",
+          "assert": "Component mounts, shows UI"
+        },
+        {
+          "name": "HermesRolodex can add contact",
+          "test": "Fill form, click Add, mock api.hermes.create",
+          "assert": "Contact appears in list, form clears"
+        },
+        {
+          "name": "HermesRolodex can delete contact",
+          "test": "Click delete on contact",
+          "assert": "Contact removed, modal closes"
+        },
+        {
+          "name": "HermesRolodex loads contacts on mount",
+          "test": "Mount component, mock api.hermes.list",
+          "assert": "Contacts load and display"
+        },
+        {
+          "name": "Mobile responsive on 320px",
+          "test": "Set viewport 320px, check layout",
+          "assert": "No horizontal scroll, buttons clickable (44px min)"
+        }
+      ],
+      "total_tests": 13,
+      "coverage_requirement": "80%"
+    },
+    {
+      "phase": 1,
+      "feature": "Tasks CRUD",
+      "tests": [
+        {
+          "name": "api.tasks.list returns array",
+          "test": "GET /api/tasks",
+          "assert": "200 OK, array response"
+        },
+        {
+          "name": "api.tasks.create stores task",
+          "test": "POST /api/tasks { title, priority }",
+          "assert": "201 Created, task in database"
+        },
+        {
+          "name": "api.tasks.update modifies task",
+          "test": "PUT /api/tasks/:id { status: 'completed' }",
+          "assert": "200 OK, database updated"
+        },
+        {
+          "name": "api.tasks.delete removes task",
+          "test": "DELETE /api/tasks/:id",
+          "assert": "200 OK, task gone from database"
+        },
+        {
+          "name": "Tasks filtered by status",
+          "test": "GET /api/tasks?status=open",
+          "assert": "Only open tasks returned"
+        },
+        {
+          "name": "Tasks filtered by priority",
+          "test": "GET /api/tasks?priority=high",
+          "assert": "Only high priority tasks returned"
+        },
+        {
+          "name": "Tasks pagination works",
+          "test": "GET /api/tasks?limit=10&offset=0",
+          "assert": "Returns 10 items, respects offset"
+        },
+        {
+          "name": "Validation rejects missing title",
+          "test": "POST /api/tasks { priority: 'high' }",
+          "assert": "400 Bad Request"
+        }
+      ],
+      "total_tests": 8,
+      "coverage_requirement": "80%"
+    },
+    {
+      "phase": 1,
+      "feature": "Workflows CRUD",
+      "tests": [
+        {
+          "name": "api.workflows.list returns array",
+          "test": "GET /api/workflows",
+          "assert": "200 OK"
+        },
+        {
+          "name": "api.workflows.create stores workflow",
+          "test": "POST /api/workflows { name, steps }",
+          "assert": "201 Created"
+        },
+        {
+          "name": "api.workflows.execute queues task",
+          "test": "POST /api/workflows/:id/execute",
+          "assert": "200 OK, returns run_id"
+        },
+        {
+          "name": "api.workflows.status returns current status",
+          "test": "GET /api/workflows/:id/status",
+          "assert": "200 OK, returns status"
+        },
+        {
+          "name": "Workflow execution completes",
+          "test": "Create, execute, poll status",
+          "assert": "Status changes from queued to completed"
+        }
+      ],
+      "total_tests": 5,
+      "coverage_requirement": "75%"
+    },
+    {
+      "phase": 2,
+      "feature": "Vector Search",
+      "tests": [
+        {
+          "name": "api.embeddings.create stores embedding",
+          "test": "POST /api/embeddings/create { text }",
+          "assert": "201 Created, embedding vector in database"
+        },
+        {
+          "name": "api.embeddings.search finds similar",
+          "test": "POST /api/embeddings/search { query }",
+          "assert": "Returns similar documents with similarity score"
+        },
+        {
+          "name": "Vector search with threshold filters",
+          "test": "POST /api/embeddings/search { threshold: 0.8 }",
+          "assert": "Only results above threshold returned"
+        },
+        {
+          "name": "Document upload creates embeddings",
+          "test": "Upload PDF, chunks created, embeddings stored",
+          "assert": "Can search document content"
+        },
+        {
+          "name": "Semantic search returns relevant results",
+          "test": "Upload docs, search with different phrasing",
+          "assert": "Results match meaning, not just keywords"
+        }
+      ],
+      "total_tests": 5,
+      "coverage_requirement": "75%"
+    },
+    {
+      "phase": 2,
+      "feature": "File Upload",
+      "tests": [
+        {
+          "name": "PDF upload creates chunks",
+          "test": "POST /api/upload (PDF file)",
+          "assert": "200 OK, chunks > 0"
+        },
+        {
+          "name": "TXT upload creates embeddings",
+          "test": "POST /api/upload (TXT file)",
+          "assert": "200 OK, embeddings stored"
+        },
+        {
+          "name": "File too large rejected",
+          "test": "POST /api/upload (100MB file)",
+          "assert": "413 Payload Too Large"
+        },
+        {
+          "name": "Invalid file type rejected",
+          "test": "POST /api/upload (EXE file)",
+          "assert": "400 Bad Request"
+        },
+        {
+          "name": "Uploaded content is searchable",
+          "test": "Upload file, search content",
+          "assert": "Content found and returned"
+        }
+      ],
+      "total_tests": 5,
+      "coverage_requirement": "75%"
+    },
+    {
+      "phase": 3,
+      "feature": "WhatsApp Webhook",
+      "tests": [
+        {
+          "name": "Webhook receives message",
+          "test": "POST /api/webhooks/whatsapp (valid Twilio payload)",
+          "assert": "200 OK, message stored"
+        },
+        {
+          "name": "Signature validation works",
+          "test": "POST /api/webhooks/whatsapp (invalid signature)",
+          "assert": "403 Forbidden"
+        },
+        {
+          "name": "Message dispatched to PAULI",
+          "test": "POST /api/webhooks/whatsapp with message",
+          "assert": "Task queued to agent"
+        },
+        {
+          "name": "Response sent back to WhatsApp",
+          "test": "Send message, wait for response",
+          "assert": "Response received on WhatsApp within 5s"
+        },
+        {
+          "name": "Command parsed correctly",
+          "test": "Send '/task Buy milk'",
+          "assert": "Task created with correct content"
+        }
+      ],
+      "total_tests": 5,
+      "coverage_requirement": "80%"
+    },
+    {
+      "phase": 3,
+      "feature": "Voice Integration",
+      "tests": [
+        {
+          "name": "Voice webhook receives call event",
+          "test": "POST /api/webhooks/voice (call started)",
+          "assert": "200 OK, call logged"
+        },
+        {
+          "name": "Voice transcription works",
+          "test": "Upload voice recording",
+          "assert": "Transcription matches speech"
+        },
+        {
+          "name": "TTS response generated",
+          "test": "PAULI provides response text",
+          "assert": "Audio generated and can be played"
+        },
+        {
+          "name": "Full voice flow works",
+          "test": "Call phone number, speak command",
+          "assert": "Voice transcribed, processed, response spoken"
+        }
+      ],
+      "total_tests": 4,
+      "coverage_requirement": "75%"
+    },
+    {
+      "phase": 3,
+      "feature": "Agent System",
+      "tests": [
+        {
+          "name": "PAULI agent receives task",
+          "test": "Queue task, PAULI picks it up",
+          "assert": "Agent status shows running"
+        },
+        {
+          "name": "Agent routes to correct handler",
+          "test": "Task type: contact, dispatch to HERMES",
+          "assert": "HERMES agent receives task"
+        },
+        {
+          "name": "Agent stores result",
+          "test": "Agent completes task, stores result",
+          "assert": "Result in database with metadata"
+        },
+        {
+          "name": "Real-time status updates",
+          "test": "Subscribe to SSE, monitor agent",
+          "assert": "Status updates appear in real-time"
+        },
+        {
+          "name": "Agent failure handling",
+          "test": "Task that fails",
+          "assert": "Error logged, status shows failed"
+        }
+      ],
+      "total_tests": 5,
+      "coverage_requirement": "75%"
+    }
+  ],
+  "test_coverage_matrix": {
+    "frontend": {
+      "HermesRolodex": {
+        "lines": 80,
+        "target_coverage": 80,
+        "critical_paths": [
+          "Load contacts on mount",
+          "Add contact",
+          "Edit contact",
+          "Delete contact",
+          "Search/filter",
+          "Mobile responsive"
+        ]
+      },
+      "TaskForm": {
+        "lines": 50,
+        "target_coverage": 85,
+        "critical_paths": [
+          "Form validation",
+          "Submit creates task",
+          "Error handling"
+        ]
+      },
+      "Pages": {
+        "lines": 200,
+        "target_coverage": 75,
+        "critical_paths": [
+          "Load data on mount",
+          "Handle errors",
+          "Real-time updates"
+        ]
+      }
+    },
+    "backend": {
+      "routes/hermes": {
+        "lines": 150,
+        "target_coverage": 85,
+        "critical_paths": [
+          "CRUD operations",
+          "Validation",
+          "Search",
+          "Error handling"
+        ]
+      },
+      "routes/tasks": {
+        "lines": 100,
+        "target_coverage": 80,
+        "critical_paths": [
+          "CRUD operations",
+          "Filtering",
+          "Pagination"
+        ]
+      },
+      "webhooks/whatsapp": {
+        "lines": 100,
+        "target_coverage": 90,
+        "critical_paths": [
+          "Signature verification",
+          "Message parsing",
+          "Response sending"
+        ]
+      },
+      "webhooks/voice": {
+        "lines": 100,
+        "target_coverage": 85,
+        "critical_paths": [
+          "Call handling",
+          "Transcription",
+          "TTS response"
+        ]
+      },
+      "services/agent-dispatcher": {
+        "lines": 100,
+        "target_coverage": 85,
+        "critical_paths": [
+          "Task queuing",
+          "Status tracking",
+          "Error handling"
+        ]
+      }
+    }
+  },
+  "pre_deployment_checks": [
+    {
+      "name": "Unit test coverage",
+      "command": "npm run test -- --coverage",
+      "requirement": "coverage > 80%",
+      "failure_action": "Block deployment"
+    },
+    {
+      "name": "TypeScript compilation",
+      "command": "npx tsc --noEmit",
+      "requirement": "Zero errors",
+      "failure_action": "Block deployment"
+    },
+    {
+      "name": "Linting",
+      "command": "npm run lint",
+      "requirement": "Zero errors",
+      "failure_action": "Block deployment"
+    },
+    {
+      "name": "Integration tests",
+      "command": "npm run test:integration",
+      "requirement": "All pass",
+      "failure_action": "Block deployment"
+    },
+    {
+      "name": "E2E tests",
+      "command": "npm run test:e2e",
+      "requirement": "All pass",
+      "failure_action": "Warn, don't block"
+    },
+    {
+      "name": "Security audit",
+      "command": "npm audit",
+      "requirement": "Zero critical",
+      "failure_action": "Block deployment"
+    },
+    {
+      "name": "Bundle size",
+      "command": "npm run build && ls -lh dist/",
+      "requirement": "< 500KB gzipped",
+      "failure_action": "Warn"
+    },
+    {
+      "name": "Performance (Lighthouse)",
+      "command": "npx lighthouse https://localhost:3000",
+      "requirement": "Score > 90",
+      "failure_action": "Warn"
+    }
+  ],
+  "test_data": {
+    "seed_contacts": [
+      {
+        "name": "Test User 1",
+        "email": "test1@example.com",
+        "role": "Software Engineer",
+        "company": "Acme Corp"
+      },
+      {
+        "name": "Test User 2",
+        "email": "test2@example.com",
+        "role": "Product Manager",
+        "company": "Tech Inc"
+      }
+    ],
+    "seed_tasks": [
+      {
+        "title": "Test Task 1",
+        "priority": "high",
+        "status": "open"
+      },
+      {
+        "title": "Test Task 2",
+        "priority": "low",
+        "status": "completed"
+      }
+    ],
+    "seed_documents": [
+      {
+        "filename": "test.txt",
+        "content": "This is a test document for vector search testing."
+      }
+    ]
+  },
+  "ci_cd_tests": {
+    "on_every_commit": [
+      "npm run lint",
+      "npm run test"
+    ],
+    "on_pull_request": [
+      "npm run lint",
+      "npm run test",
+      "npm run test:integration",
+      "npm run build"
+    ],
+    "on_merge_to_main": [
+      "npm run lint",
+      "npm run test",
+      "npm run test:integration",
+      "npm run test:e2e",
+      "npm run build",
+      "npm audit",
+      "Deploy to staging"
+    ],
+    "on_release": [
+      "All above",
+      "Deploy to production",
+      "Run smoke tests on production"
+    ]
+  }
+}
