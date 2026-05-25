@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import Anthropic from '@anthropic-ai/sdk';
 import { Client } from '@notionhq/client';
 import copilotKitRoutes from './copilotkit-routes';
 import agiOpenRoutes from './agi-open-routes';
@@ -9,12 +8,12 @@ import syncRoutes, { initializeWatchers } from './sync-routes';
 import healthRoutes from './routes/health';
 import brainRoutes from './routes/brain';
 import uploadRoutes from './routes/upload';
+import chatRoutes from './routes/chat';
 import { getSyncEngine } from './services/sync-engine';
 import { enforceCopilotKitUsage, redirectToCopilotKit, logFrontendGeneration } from './middleware/enforce-copilotkit';
 
 const app = express();
 const prisma = new PrismaClient();
-const anthropic = new Anthropic();
 const notion = new Client({ auth: process.env.NOTION_API_TOKEN });
 
 app.use(cors());
@@ -42,6 +41,9 @@ app.use('/api/brain', brainRoutes);
 
 // File upload routes
 app.use('/api', uploadRoutes);
+
+// Chat routes (NVIDIA NIM-powered)
+app.use('/api', chatRoutes);
 
 // =====================================================
 // EMAIL CAPTURE ENDPOINTS
@@ -113,51 +115,6 @@ app.get('/api/comics/:slug', async (req: Request, res: Response) => {
     res.json(episode);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch episode' });
-  }
-});
-
-// =====================================================
-// AI CHAT ENDPOINTS
-// =====================================================
-
-app.post('/api/chat', async (req: Request, res: Response) => {
-  try {
-    const { message, sessionId } = req.body;
-
-    let conversation = await prisma.conversation.findFirst({
-      where: { sessionId, status: 'ACTIVE' },
-    });
-
-    if (!conversation) {
-      conversation = await prisma.conversation.create({ data: { sessionId } });
-    }
-
-    await prisma.message.create({
-      data: { conversationId: conversation.id, role: 'USER', content: message },
-    });
-
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      system: `You are PAULI, the AI assistant for THE PAULI EFFECT comic series. Help readers understand physics concepts, navigate the story, and answer questions. Be friendly and enthusiastic about science.`,
-      messages: [{ role: 'user', content: message }],
-    });
-
-    const assistantMessage = response.content[0].type === 'text' ? response.content[0].text : '';
-
-    await prisma.message.create({
-      data: {
-        conversationId: conversation.id,
-        role: 'ASSISTANT',
-        content: assistantMessage,
-        tokens: response.usage?.output_tokens,
-      },
-    });
-
-    res.json({ message: assistantMessage, conversationId: conversation.id });
-  } catch (error) {
-    console.error('Chat error:', error);
-    res.status(500).json({ error: 'Failed to process chat' });
   }
 });
 

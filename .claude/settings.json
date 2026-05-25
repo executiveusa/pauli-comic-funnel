@@ -1,0 +1,40 @@
+{
+  "tools": {
+    "bash": {
+      "preToolUse": {
+        "enabled": true,
+        "rewriteCommands": [
+          "find",
+          "grep",
+          "git",
+          "ls",
+          "npm",
+          "cargo",
+          "docker",
+          "kubectl",
+          "pytest",
+          "go",
+          "rustc",
+          "tsc",
+          "eslint"
+        ],
+        "compressionFloor": 0.65
+      }
+    }
+  },
+  "costGuards": {
+    "enabled": true,
+    "taskLimit": 10,
+    "dailyLimit": 50,
+    "alertThreshold": 5
+  },
+  "tokenTracking": {
+    "enabled": true,
+    "logDirectory": "ops/reports",
+    "reportFrequency": "per-session"
+  },
+  "modelRouting": {
+    "default": "gpt-5.4",
+    "compressionFloor": 0.65
+  }
+}
