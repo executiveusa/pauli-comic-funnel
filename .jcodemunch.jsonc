@@ -1,0 +1,32 @@
+// jCodeMunch project override for pauli-comic-funnel
+// Goal: index ONLY first-party code, not the 10k+ vendored third-party repos.
+{
+  "max_folder_files": 5000,
+  "extra_ignore_patterns": [
+    // Vendored third-party subrepos (not our code)
+    "litellm-main(2)/",
+    "postiz-app-main/",
+    "eigent-main/",
+    "motion-primitives-main(1)/",
+    "JARVIS_Universal_Agent_v2.0/",
+    "cult-ui-main.zip",
+    "Rube/",
+    "grep-mcp/",
+    // Build artifacts & deps
+    "node_modules/",
+    "dist/",
+    "build/",
+    ".venv/",
+    "__pycache__/",
+    ".next/",
+    "*.min.js",
+    "*.min.css",
+    "package-lock.json",
+    "bun.lockb",
+    // Heavy media / assets
+    "public/**/*.mp4",
+    "public/**/*.webm",
+    "public/**/*.mov",
+    "*.zip"
+  ]
+}

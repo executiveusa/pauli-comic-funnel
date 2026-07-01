@@ -1,0 +1,32 @@
+<h2>🌙 Done for tonight — Bambu, sleep well</h2>
+<p class="subtitle">Phase 1 built &amp; committed. One thing left for you in the morning.</p>
+
+<div class="section">
+  <p class="label">✅ Built tonight (commit bd3e91fa, branch feat/pauli-brain-icm)</p>
+  <ul style="text-align:left;max-width:560px;margin:0 auto;line-height:1.9">
+    <li><b>Brain</b> — <code>brain/search.mjs</code> searches your E:\ vaults (live-tested ✅). Supabase RPC wired as primary; auto-falls back to local.</li>
+    <li><b>Identity</b> — <code>PAULI.md</code> + <code>company/INDEX.md</code>. The agent now knows it's Pauli.</li>
+    <li><b>Control bridge</b> — runs jobs <i>as Pauli</i> (identity injected).</li>
+    <li><b>Secrets</b> — gitignored &amp; never echoed. Cosmos_Vault keys load from disk.</li>
+  </ul>
+</div>
+
+<div class="section" style="margin-top:28px">
+  <p class="label">🔴 Morning — the ONE thing only you can do</p>
+  <p style="max-width:560px;margin:0 auto;text-align:left">
+  Put the VPS on Tailscale so Supabase becomes reachable. SSH in →
+  <code>tailscale up</code> → approve in admin → tell me the <code>100.x.x.x</code> IP.
+  Full details in <code>pauli-pi-agent/MORNING_HANDOFF.md</code>.
+  </p>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:center;min-height:25vh">
+  <p class="subtitle">See you in the morning. You've been a great collaborator. 🌙</p>
+</div>
+
+<style>
+  body{font-family:-apple-system,system-ui,sans-serif;background:#0b1120;color:#e2e8f0}
+  h2{text-align:center} .subtitle{text-align:center;opacity:.7}
+  .section{margin-top:18px} .label{font-size:11px;letter-spacing:1px;opacity:.6;text-align:center}
+  code{background:#1e293b;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
