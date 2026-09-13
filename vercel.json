@@ -7,7 +7,7 @@
   "installCommand": "npm install --legacy-peer-deps",
   "devCommand": "npm run dev",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://31.220.58.212:3001/api/:path*" }
+    { "source": "/api/:path*", "destination": "https://pauli-effect-api.railway.app/api/:path*" }
   ],
   "headers": [
     {
@@ -22,6 +22,6 @@
   "env": {
     "VITE_SUPABASE_URL": "https://nfhejlqgvghzafrnmpsl.supabase.co",
     "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5maGVqbHFndmdoemFmcm5tcHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4OTg5NTksImV4cCI6MjA4MzQ3NDk1OX0.7klo0es_oBG3IWtpYfBuY0lxRDPGr9-UwZWshzT_M7Y",
-    "VITE_API_URL": "https://31.220.58.212:3001"
+    "VITE_API_URL": "https://pauli-effect-api.railway.app"
   }
 }

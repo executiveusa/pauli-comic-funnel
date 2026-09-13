@@ -1,0 +1,39 @@
+{
+  "name": "pauli-unified-chat",
+  "version": "1.0.0",
+  "description": "Unified PAULI chat app with RTK hooks, MCP integration, and Flywheel learning",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev:server & npm run dev:client",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "cd client && npx vite",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npx vite build",
+    "build:server": "tsc",
+    "start": "node dist/index.js",
+    "deploy": "railway up",
+    "deploy:skill": "node scripts/deploy-skill.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
+    "@supabase/supabase-js": "^2.90.1",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1",
+    "octokit": "^2.0.14",
+    "uuid": "^9.0.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.5.3"
+  },
+  "engines": {
+    "node": "18.0.0"
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "generated": "2026-04-12T00:00:00Z",
+    "description": "Hierarchical knowledge graph following mempalace structure (6 levels: project → module → skill → pattern → scene → code)",
+    "tags": ["agents", "projects", "skills", "code", "relationships"]
+  },
+  "nodes": {
+    "projects": {
+      "new-world-kids": {
+        "name": "New World Kids",
+        "type": "mission",
+        "status": "active",
+        "rating": 10,
+        "description": "Education transformation for underserved communities",
+        "related_agents": ["ARIA", "ECHO", "NEXUS"],
+        "tags": ["education", "impact", "community"]
+      },
+      "kupuri-media": {
+        "name": "Kupuri Media",
+        "type": "revenue",
+        "status": "active",
+        "rating": 10,
+        "description": "Full-service web agency",
+        "clients": 15,
+        "related_agents": ["VEGA", "SPECTRUM", "WINSTON"],
+        "tags": ["web", "design", "deployment"]
+      },
+      "pauli-system": {
+        "name": "PAULI System",
+        "type": "infrastructure",
+        "status": "in-progress",
+        "rating": 9,
+        "description": "Autonomous AI agent system",
+        "related_agents": ["PAULI-PRIME", "all"],
+        "tags": ["ai", "orchestration", "agents"]
+      }
+    },
+    "agents": {
+      "pauli-prime": {
+        "name": "PAULI-PRIME",
+        "type": "orchestrator",
+        "model": "claude-sonnet-4",
+        "role": "Master decision-maker",
+        "skills": ["decision-making", "task-routing", "learning"],
+        "dependencies": ["NEXUS", "CREDIT", "ARIA", "SPECTRUM", "VEGA"],
+        "location": "agents/agents/pauli-prime/"
+      },
+      "nexus": {
+        "name": "NEXUS",
+        "type": "specialist",
+        "model": "claude-sonnet-4",
+        "role": "Strategy & market intelligence",
+        "skills": ["market-analysis", "strategy", "forecasting"],
+        "location": "agents/agents/nexus/"
+      },
+      "vega": {
+        "name": "VEGA",
+        "type": "specialist",
+        "model": "claude-opus-4",
+        "role": "Code execution & deployment",
+        "skills": ["python", "deployment", "devops", "cli"],
+        "location": "agents/agents/vega/"
+      },
+      "aria": {
+        "name": "ARIA",
+        "type": "specialist",
+        "model": "claude-sonnet-4",
+        "role": "Creative writing & content",
+        "skills": ["creative-writing", "narrative", "dialogue"],
+        "location": "agents/agents/aria/"
+      }
+    },
+    "skills": {
+      "deployment-devops": {
+        "name": "Deployment & DevOps",
+        "number": 1,
+        "description": "Infrastructure automation, containerization, CI/CD",
+        "owner_agent": "VEGA",
+        "related_projects": ["kupuri-media", "pauli-system"],
+        "tools": ["Docker", "Kubernetes", "GitHub Actions", "Railway", "Vercel"]
+      },
+      "ui-ux-design": {
+        "name": "UI/UX Design",
+        "number": 2,
+        "description": "User interface and experience design",
+        "owner_agent": "SPECTRUM",
+        "related_projects": ["kupuri-media"],
+        "tools": ["Figma", "React", "Tailwind", "shadcn/ui"]
+      },
+      "avatar-comic-scripting": {
+        "name": "Avatar & Comic Scripting",
+        "number": 7,
+        "description": "Script comics, avatars, visual narratives",
+        "owner_agent": "ARIA",
+        "related_projects": ["new-world-kids", "pauli-system"],
+        "tools": ["React", "GSAP", "SVG", "Canvas"]
+      },
+      "mcp-server-builder": {
+        "name": "MCP Server Builder",
+        "number": 11,
+        "description": "Model Context Protocol server development",
+        "owner_agent": "VEGA",
+        "related_projects": ["pauli-system"],
+        "tools": ["TypeScript", "MCP SDK"]
+      }
+    },
+    "code": {
+      "src-app": {
+        "path": "src/App.tsx",
+        "type": "root-component",
+        "description": "Root React component",
+        "dependencies": ["components/*", "pages/*", "contexts/*"],
+        "related_agents": ["SPECTRUM"]
+      },
+      "server-index": {
+        "path": "server/index.ts",
+        "type": "api-server",
+        "description": "Hono.js API server",
+        "endpoints": ["/api/agents", "/api/projects", "/api/upload", "/api/wiki"],
+        "related_agents": ["VEGA", "PAULI-PRIME"]
+      },
+      "agents-router": {
+        "path": "agents/intelligent_model_router.py",
+        "type": "orchestration",
+        "description": "Intelligent model selection based on task",
+        "logic": ["task-analysis", "feature-extraction", "model-selection"],
+        "related_agents": ["PAULI-PRIME"]
+      }
+    }
+  },
+  "edges": {
+    "project-to-agents": [
+      { "from": "pauli-system", "to": "pauli-prime", "type": "orchestrated-by" },
+      { "from": "pauli-system", "to": "vega", "type": "uses" },
+      { "from": "kupuri-media", "to": "spectrum", "type": "designs" },
+      { "from": "new-world-kids", "to": "aria", "type": "creates" }
+    ],
+    "agent-to-skills": [
+      { "from": "vega", "to": "deployment-devops", "type": "owns" },
+      { "from": "spectrum", "to": "ui-ux-design", "type": "owns" },
+      { "from": "aria", "to": "avatar-comic-scripting", "type": "owns" }
+    ],
+    "skill-to-code": [
+      { "from": "deployment-devops", "to": "server-index", "type": "uses" },
+      { "from": "ui-ux-design", "to": "src-app", "type": "builds" },
+      { "from": "avatar-comic-scripting", "to": "src-app", "type": "creates" }
+    ],
+    "provenance": [
+      { "fact": "VEGA owns deployment", "source": "EXTRACTED", "confidence": 1.0 },
+      { "fact": "PAULI-PRIME routes tasks", "source": "INFERRED", "confidence": 0.95 },
+      { "fact": "18 Cloud Skills total", "source": "EXTRACTED", "confidence": 1.0 }
+    ]
+  },
+  "hierarchy": {
+    "wings": [
+      "projects",
+      "agents",
+      "skills",
+      "code",
+      "deployment",
+      "analytics"
+    ],
+    "cross_tunnels": [
+      {
+        "name": "web-pipeline",
+        "connects": ["kupuri-media", "ui-ux-design", "src-app"],
+        "description": "From client project to deployed web app"
+      },
+      {
+        "name": "agent-orchestration",
+        "connects": ["pauli-system", "pauli-prime", "agents-router"],
+        "description": "Task flows through agent system"
+      }
+    ]
+  },
+  "search_index": {
+    "agents": ["pauli-prime", "nexus", "vega", "aria", "spectrum", "echo", "credit"],
+    "projects": ["pauli-system", "kupuri-media", "new-world-kids"],
+    "skills": ["deployment-devops", "ui-ux-design", "avatar-comic-scripting"],
+    "files": ["src/App.tsx", "server/index.ts", "agents/intelligent_model_router.py"]
+  }
+}

@@ -1,0 +1,74 @@
+# SERVER/ DIRECTORY — BACKEND API
+# Hono.js + Express middleware
+# Purpose: API endpoints, agent orchestration, data persistence
+
+## STRUCTURE
+├── index.ts                    → Hono app setup + middleware
+├── agi-open-routes.ts         → AGI Open Protocol endpoints
+├── copilotkit-routes.ts       → Copilot Kit integration
+├── sync-routes.ts             → Second Brain sync endpoints
+├── middleware/                → Request/response handlers
+│   ├── auth.ts               → Authentication
+│   └── errorHandler.ts       → Error handling
+├── routes/                    → API route handlers
+│   ├── agents.ts             → Agent management
+│   ├── projects.ts           → Project queries
+│   ├── upload.ts             → File upload handler
+│   └── wiki.ts               → LLM Wiki queries
+├── services/                  → Business logic
+│   ├── agentService.ts       → Agent orchestration
+│   ├── uploadService.ts      → File processing
+│   ├── wikiService.ts        → Wiki indexing
+│   └── syncService.ts        → Notion/Drive sync
+└── Dockerfile                → Container config
+
+## KEY ENDPOINTS
+
+### Agent Management
+- GET /api/agents            → List all agents
+- GET /api/agents/:id        → Agent details + status
+- POST /api/agents/:id/run   → Execute agent task
+- GET /api/agents/:id/logs   → Agent execution logs
+
+### File Upload
+- POST /api/upload           → Upload large file (LLM output)
+- GET /api/files             → List uploaded files
+- DELETE /api/files/:id      → Remove file
+
+### Knowledge Wiki
+- GET /api/wiki/search       → Full-text search
+- GET /api/wiki/graph        → Fetch knowledge graph
+- GET /api/wiki/context/:id  → Context for specific item
+
+### Sync
+- POST /api/sync/pull        → Sync from Notion/Drive
+- POST /api/sync/push        → Sync to Notion/Drive
+- GET /api/sync/status       → Sync status
+
+## MIDDLEWARE
+- CORS handling
+- Authentication (JWT)
+- Error handling
+- Request logging
+- Rate limiting
+
+## DATABASE LAYER
+- Prisma ORM → PostgreSQL
+- Models defined in prisma/schema.prisma
+- Auto-migrations via Prisma Migrate
+
+## DEVELOPMENT
+```bash
+npm run server               # Start backend (port 3000)
+npm run db:studio          # Prisma Studio (database UI)
+npm run db:migrate         # Run migrations
+```
+
+## ARCHITECTURE NOTES
+- Stateless API (horizontal scaling ready)
+- Each route handler imports its service
+- Services contain business logic
+- Middleware for cross-cutting concerns
+
+---
+Update when adding new endpoints or services.

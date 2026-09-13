@@ -1,0 +1,71 @@
+<h2>The Pauli Software Factory — One Agent, Many Folders</h2>
+<p class="subtitle">How all the pieces fit, what you control, and where it can go.</p>
+
+<div class="map">
+
+  <div class="row">
+    <div class="you">
+      <b>YOU (Bambu)</b>
+      <p class="small">Voice / tablet / from anywhere</p>
+    </div>
+  </div>
+  <div class="link">via Tailscale (your private network — anywhere on earth)</div>
+
+  <div class="tier tail">
+    <span class="tag">CONTROL PLANE — private, Tailscale</span>
+    <div class="cards-h">
+      <div class="c">Pauli Control Bridge<br><span class="small">port 8787 · mode-gated plan/read/write/ship</span></div>
+      <div class="c">Tailscale<br><span class="small">phone · tablet · <b>pauli-vps</b> · client machines</span></div>
+    </div>
+  </div>
+
+  <div class="tier agent">
+    <span class="tag">THE ONE AGENT — Pauli Pi Agent</span>
+    <div class="cards-h">
+      <div class="c">PAULI.md<br><span class="small">identity + navigation</span></div>
+      <div class="c">company/<br><span class="small">doctrine (SOUL, CYNTHIA…)</span></div>
+      <div class="c">brain/<br><span class="small">→ Supabase → local vaults</span></div>
+      <div class="c">skills/<br><span class="small">many folders = capabilities</span></div>
+    </div>
+    <p class="small" style="margin-top:8px">One agent. It doesn't spawn a framework. It <b>navigates folders + queries the brain</b> on demand.</p>
+  </div>
+
+  <div class="tier brain">
+    <span class="tag">BRAIN / MEMORY — self-hosted on pauli-vps</span>
+    <div class="cards-h">
+      <div class="c">Supabase (self-hosted)<br><span class="small">Postgres + pgvector + Auth + Storage + Edge Fns</span></div>
+      <div class="c">second_brain DB<br><span class="small">memories, vector search, conversations</span></div>
+    </div>
+  </div>
+
+  <div class="tier world">
+    <span class="tag">THE WORLD — public + client machines</span>
+    <div class="cards-h">
+      <div class="c">Public Portfolio<br><span class="small">animated avatar world (THE PAULI EFFECT)</span></div>
+      <div class="c">OpenRouter Chat Bot<br><span class="small">multimodal public entry</span></div>
+      <div class="c">Client computers<br><span class="small">agent installs/setup via Tailscale</span></div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:18px">→ See the terminal for the full explanation &amp; options.</p>
+
+<style>
+  body{font-family:-apple-system,system-ui,sans-serif;background:#0b1120;color:#e2e8f0;margin:0}
+  .map{max-width:720px;margin:0 auto}
+  .you{background:#1e3a5f;border:1px solid #60a5fa;border-radius:10px;padding:10px 16px;text-align:center;max-width:240px;margin:0 auto}
+  .tier{border-radius:12px;padding:12px;margin:10px 0}
+  .tail{background:#2a1e0f;border:1px solid #fbbf24}
+  .agent{background:#0f2a1e;border:1px solid #34d399}
+  .brain{background:#1a1a2e;border:1px solid #a78bfa}
+  .world{background:#1e293b;border:1px solid #38bdf8}
+  .tag{font-size:10px;letter-spacing:1px;opacity:.7;display:block;margin-bottom:8px}
+  .cards-h{display:flex;gap:8px;flex-wrap:wrap}
+  .c{flex:1;min-width:130px;background:rgba(255,255,255,.05);border-radius:8px;padding:8px 10px}
+  .c b{font-size:13px}
+  .link,.small{font-size:11px;opacity:.6;text-align:center}
+  .link{margin:4px 0}
+  .row{margin:6px 0}
+  h2{text-align:center} .subtitle{text-align:center;opacity:.7}
+</style>

@@ -1,0 +1,902 @@
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/litellm-main(2)/litellm-main/tests/pass_through_tests/ruby_passthrough_tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-tools-main/crewAI-tools-main/crewai_tools/tools/code_interpreter_tool"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/agents/lemonai-main(1)/lemonai-main/containers/app"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/agents/lemonai-main(1)/lemonai-main/containers/runtime"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/eigent-main/server"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/litellm-main(2)/litellm-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/litellm-main(2)/litellm-main/cookbook/litellm-ollama-docker-image"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/litellm-main(2)/litellm-main/docs/my-website"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/litellm-main(2)/litellm-main/litellm-js/spend-logs"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "docker"
+    directory: "/server"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/agent-lightning-main(1)/agent-lightning-main/dashboard"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/agents/agent-lightning-main(1)/agent-lightning-main/dashboard"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/agents/better-agents-main/better-agents-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/agents/big-3-super-agent-main/apps/content-gen"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/agents/big-3-super-agent-main/apps/content-gen/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/lemonai-main(1)/lemonai-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/lemonai-main(1)/lemonai-main/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/agents/open-agent-builder-main(1)/open-agent-builder-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/eigent-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/eigent-main/package/@stackframe/react"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/eigent-main/package/@stackframe/stack-shared"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main/docs/my-website"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main/litellm-js/proxy"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main/litellm-js/spend-logs"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main/tests/proxy_admin_ui_tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/litellm-main(2)/litellm-main/tests/proxy_admin_ui_tests/ui_unit_tests"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/motion-primitives-main(1)/motion-primitives-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/motion-primitives-main(1)/motion-primitives-main/cli"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/pauli-unified-chat"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/pauli-unified-chat/client"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/commands"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/cron"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/extension"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/sdk"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "npm"
+    directory: "/postiz-app-main/postiz-app-main/apps/workers"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/JARVIS_Universal_Agent_v2.0"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agent-lightning-main(1)/agent-lightning-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/code_view_error_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/competitor_analys_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/finance_agent_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/health_and_fittness_planner"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/investment_stock_analys_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/journalist_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/lawyer_agent_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/Awesome-AI-Agents-HUB-for-CrewAI-main/Awesome-AI-Agents-HUB-for-CrewAI-main/marketing_posts_crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/game-builder-crew"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/instagram_post"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/job-posting"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/landing_page_generator"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/markdown_validator"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/marketing_strategy"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/match_profile_to_positions"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/meta_quest_knowledge"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/prep-for-a-meeting"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/recruitment"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/stock_analysis"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/surprise_trip"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/crews/trip_planner"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/flows/email_auto_responder_flow"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/flows/lead-score-flow"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/flows/meeting_assistant_flow"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/flows/self_evaluation_loop_flow"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/flows/write_a_book_with_flows"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/integrations/CrewAI-LangGraph"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/integrations/azure_model"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/integrations/nvidia_models/intro"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-examples-main/crewAI-examples-main/integrations/nvidia_models/marketing_strategy"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/crewAI-tools-main/crewAI-tools-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/CREW AI WORKFLOWS/template_conversational_example-main/template_conversational_example-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/agent-lightning-main(1)/agent-lightning-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/agents/big-3-super-agent-main/apps/content-gen/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/lemonai-main(1)/lemonai-main/browser_server"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/agents/pauli_lightning"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/eigent-main/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/eigent-main/server"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main/.circleci"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main/cookbook/litellm-ollama-docker-image"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main/docker/build_from_pip"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main/enterprise"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/litellm-main(2)/litellm-main/litellm-proxy-extras"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/aws-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/database-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/ffmpeg-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/huggingface-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/imagemagick-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/kubernetes-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/monitoring-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/n8n-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/resend-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/sentry-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "pip"
+    directory: "/mcp-servers/terraform-mcp"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"

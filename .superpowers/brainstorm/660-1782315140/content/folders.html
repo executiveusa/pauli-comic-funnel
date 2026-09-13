@@ -1,0 +1,60 @@
+<h2>The Three-Layer Rule — How Folders Are Organized</h2>
+<p class="subtitle">The librarian doesn't carry the books. The agent points at knowledge; it doesn't contain it.</p>
+
+<div class="layers">
+
+  <div class="layer agent">
+    <span class="tag">LAYER 2 — THE AGENT (the librarian)</span>
+    <b>C:\Users\execu\repos\pauli-pi-agent</b>
+    <p class="small">Small, focused, git-controlled. Identity + brain + doctrine + skills. NEVER holds the knowledge itself.</p>
+    <div class="inside">
+      <code>PAULI.md · brain/ · company/ · skills/ · scripts/ · ops/</code>
+    </div>
+  </div>
+
+  <div class="arrow">▼ points to (never copies) ▼</div>
+
+  <div class="row">
+
+    <div class="layer knowledge">
+      <span class="tag">LAYER 1 — KNOWLEDGE (the books)</span>
+      <b>E:\MENTAL MODELS · E:\OBSIDIAN SECOND BRAIN</b>
+      <p class="small">Yours forever. Big, messy, human. Stays where you own it. Agent walks here on demand.</p>
+    </div>
+
+    <div class="layer knowledge">
+      <span class="tag">LAYER 1 — KNOWLEDGE (the indexed brain)</span>
+      <b>Supabase on pauli-vps (Tailscale)</b>
+      <p class="small">The fast, searchable index of the knowledge. <code>second_brain</code> DB.</p>
+    </div>
+
+  </div>
+
+  <div class="layer factory">
+    <span class="tag">LAYER 3 — THE FACTORY (the workshop)</span>
+    <b>E:\ACTIVE PROJECTS-PIPELINE\FACTORY</b>
+    <p class="small">The pipeline + clients. Where COSMOS picks work, builds in sandcastle, ships. Indexes your 244 repos.</p>
+    <div class="inside">
+      <code>00_BRAIN · 01_DOCTRINE · 02_REGISTRY · 03_PIPELINE (kanban) · 04_AGENTS · 05_CLIENTS · 06_OBSERVABILITY · 07_TEMPLATES</code>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px">3 layers. Kept separate. Connected by pointers. → See terminal for Notion plan.</p>
+
+<style>
+  body{font-family:-apple-system,system-ui,sans-serif;background:#0b1120;color:#e2e8f0;margin:0}
+  .layers{max-width:720px;margin:0 auto}
+  h2{text-align:center} .subtitle{text-align:center;opacity:.7}
+  .layer{border-radius:12px;padding:14px;margin:10px 0}
+  .agent{background:#0f2a1e;border:1px solid #34d399}
+  .knowledge{background:#1a1a2e;border:1px solid #a78bfa;flex:1}
+  .factory{background:#1e293b;border:1px solid #38bdf8}
+  .tag{font-size:10px;letter-spacing:1px;opacity:.7;display:block;margin-bottom:6px}
+  .inside{background:rgba(255,255,255,.05);border-radius:6px;padding:6px 8px;margin-top:8px;font-size:11px}
+  .row{display:flex;gap:10px}
+  .arrow{text-align:center;opacity:.4;font-size:16px;margin:6px 0}
+  .small{font-size:12px;opacity:.8;margin:6px 0 0}
+  code{background:rgba(255,255,255,.1);padding:1px 4px;border-radius:3px}
+</style>

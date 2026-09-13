@@ -1,0 +1,69 @@
+# PAULI CODEBASE MAP — ROOT INDEX
+# Last Generated: 2026-04-12
+# Purpose: Self-describing guide for any LLM reading this repo
+
+## QUICK NAVIGATION
+- src/           → React frontend (TypeScript, Vite, shadcn/ui)
+- server/        → Hono.js backend API (routes, middleware, services)
+- agents/        → CrewAI agent definitions + intelligent router
+- prisma/        → PostgreSQL schema + ORM models
+- public/        → Static assets (favicon, icons)
+- scripts/       → Automation & deployment scripts
+- _JCP/          → Project tracking & feature flags
+
+## ARCHITECTURE AT A GLANCE
+Frontend (Vite React 18.3)
+  ↓ HTTP/WebSocket
+Backend (Hono.js + Express middleware)
+  ↓ Database
+Prisma ORM ↔ PostgreSQL
+  ↓ Knowledge
+CrewAI Agents (19 total) + Intelligent Model Router
+  ↓ Memory
+Second Brain (Vector DB + Neo4j)
+
+## ENTRY POINTS
+- Frontend: src/main.tsx
+- Backend: server/index.ts
+- CLI: scripts/ folder
+- Agents: agents/index.ts
+
+## KEY TECHNOLOGIES
+- React 18.3 + TypeScript + Vite
+- Hono.js + Express
+- Prisma ORM
+- CrewAI + Anthropic Claude
+- Neo4j (graph DB)
+- PostgreSQL (relational)
+- Tailwind CSS + shadcn/ui
+- TanStack React Query
+
+## PROJECT PURPOSE
+PAULI: Autonomous Universal Living Intelligence
+- Voice-activated task execution (VAPI)
+- 19 specialized agents
+- 100+ project management
+- Cross-platform dashboard (web, mobile, desktop)
+
+## HOW TO USE THIS REPO
+1. Read ROOT_LLM.txt (this file)
+2. Navigate to src/LLM.txt, server/LLM.txt, agents/LLM.txt
+3. Use caveman mode for brief explanations
+4. Query KNOWLEDGE_GRAPH.json for relationships
+5. Search LLM.txt files for specific concepts
+
+## KNOWLEDGE GRAPH
+See KNOWLEDGE_GRAPH.json for:
+- Agent definitions & relationships
+- Cloud Skills (18 total)
+- Project dependencies
+- Data flow paths
+
+## CONTACT & CONTEXT
+Owner: Bambu (executiveusa on GitHub)
+Repo: executiveusa/pauli-comic-funnel
+Status: ACTIVE MVP — Building cross-platform dashboard
+Next: Extend to Rust, add mobile support
+
+---
+Generated for LLM context windows. Update LLM.txt in subdirectories when adding features.
