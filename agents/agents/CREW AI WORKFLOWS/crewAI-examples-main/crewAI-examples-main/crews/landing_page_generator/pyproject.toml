@@ -5,7 +5,7 @@ description = ""
 authors = [{name = "Your Name", email = "you@example.com"}]
 requires-python = ">=3.10.0,<3.12"
 dependencies = [
-    "python-dotenv==1.0.0",
+    "python-dotenv==1.2.3",
     "crewai>=0.152.0",
     "unstructured>=0.16.4",
 ]
