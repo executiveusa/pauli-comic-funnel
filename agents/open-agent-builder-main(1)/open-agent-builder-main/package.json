@@ -83,7 +83,7 @@
     "framer-motion": "^11.1.7",
     "geist": "^1.4.2",
     "jotai": "^2.15.0",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.18.1",
     "lucide-react": "^0.539.0",
     "motion": "^12.20.2",
     "nanoid": "^5.1.6",
