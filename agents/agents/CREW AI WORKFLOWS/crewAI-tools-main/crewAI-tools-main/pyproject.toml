@@ -112,18 +112,18 @@ stagehand = [
     "stagehand>=0.4.1",
 ]
 github = [
-    "gitpython==3.1.38",
-    "PyGithub==1.59.1",
+    "gitpython==3.1.62",
+    "PyGithub==2.10.0",
 ]
 rag = [
     "python-docx>=1.1.0",
-    "lxml>=5.3.0,<5.4.0",  # Pin to avoid etree import issues in 5.4.0
+    "lxml>=5.3.0,<6.2.0",  # Pin to avoid etree import issues in 5.4.0
 ]
 xml = [
     "unstructured[local-inference, all-docs]>=0.17.2"
 ]
 oxylabs = [
-    "oxylabs==2.0.0"
+    "oxylabs==3.0.0"
 ]
 mongodb = [
     "pymongo>=4.13"
