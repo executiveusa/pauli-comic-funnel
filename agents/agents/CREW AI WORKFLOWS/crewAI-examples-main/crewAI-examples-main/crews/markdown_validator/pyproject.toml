@@ -6,9 +6,9 @@ authors = [{name = "ITLackey", email = "itlackey@gmail.com"}]
 requires-python = ">=3.10.0,<3.12"
 dependencies = [
     "crewai>=0.152.0",
-    "python-dotenv==1.0.0",
-    "markdown==3.4.3",
-    "pymarkdownlnt==0.9.15",
+    "python-dotenv==1.2.3",
+    "markdown==3.10.3",
+    "pymarkdownlnt==0.9.39",
 ]
 
 [tool.pyright]
