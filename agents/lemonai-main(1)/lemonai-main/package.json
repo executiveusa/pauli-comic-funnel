@@ -44,7 +44,7 @@
     "node-xlsx": "^0.24.0",
     "pino": "^9.6.0",
     "playwright": "^1.52.0",
-    "sequelize": "^6.37.7",
+    "sequelize": "^6.37.8",
     "sinon": "^20.0.0",
     "sqlite3": "^5.1.7",
     "supertest": "^7.1.0",
