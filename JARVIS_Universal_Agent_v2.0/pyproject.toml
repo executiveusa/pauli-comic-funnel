@@ -34,47 +34,47 @@ classifiers = [
 
 dependencies = [
     # Core AI & LLM
-    "anthropic>=0.18.0",
-    "openai>=1.12.0",
-    "requests>=2.31.0",
+    "anthropic>=1.4.0",
+    "openai>=3.11.0",
+    "requests>=2.34.2",
     
     # Voice Input/Output
-    "faster-whisper>=0.10.0",
-    "pyttsx3>=2.90",
-    "SpeechRecognition>=3.10.0",
+    "faster-whisper>=1.2.1",
+    "pyttsx3>=2.99",
+    "SpeechRecognition>=3.17.0",
     "pyaudio>=0.2.14",
     
     # Browser & System Automation
-    "playwright>=1.41.0",
+    "playwright>=1.62.0",
     "pyautogui>=0.9.54",
-    "psutil>=5.9.8",
+    "psutil>=7.2.2",
     
     # Utilities
-    "pyperclip>=1.8.2",
+    "pyperclip>=1.11.0",
     "plyer>=2.1.0",
     
     # Memory & Vector Database
-    "chromadb>=0.4.22",
+    "chromadb>=1.5.9",
     
     # MCP Support
-    "mcp>=1.0.0",
+    "mcp>=2.2.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.23.0",
-    "black>=24.0.0",
-    "ruff>=0.3.0",
-    "mypy>=1.8.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "black>=26.5.1",
+    "ruff>=0.16.6",
+    "mypy>=2.3.1",
 ]
 premium = [
-    "elevenlabs>=0.2.26",  # Premium TTS
-    "opencv-python>=4.9.0",  # Computer vision
+    "elevenlabs>=2.67.0",  # Premium TTS
+    "opencv-python>=5.0.0.93",  # Computer vision
 ]
 extras = [
-    "pandas>=2.2.0",  # Data processing
-    "numpy>=1.26.0",  # Numerical computing
+    "pandas>=2.3.3",  # Data processing
+    "numpy>=2.2.6",  # Numerical computing
 ]
 
 [project.urls]
@@ -90,10 +90,10 @@ jarvis-config = "jarvis_config:interactive_setup"
 [tool.uv]
 # Monorepo member config - inherits workspace settings
 dev-dependencies = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.23.0",
-    "black>=24.0.0",
-    "ruff>=0.3.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "black>=26.5.1",
+    "ruff>=0.16.6",
 ]
 
 [tool.black]
