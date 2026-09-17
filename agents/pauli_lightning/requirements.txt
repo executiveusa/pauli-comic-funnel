@@ -3,8 +3,8 @@
 
 # Core
 agentlightning>=1.0.1
-openai>=3.11.0
-anthropic>=1.4.0
+openai>=3.13.0
+anthropic>=1.5.0
 google-generativeai>=0.8.6
 
 # LiteLLM for unified gateway
