@@ -15,7 +15,7 @@
     "deploy:skill": "node scripts/deploy-skill.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.124.0",
+    "@anthropic-ai/sdk": "^0.125.0",
     "@supabase/supabase-js": "^2.116.0",
     "axios": "^1.20.0",
     "cors": "^2.8.5",
