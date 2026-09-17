@@ -6,15 +6,15 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "alembic>=1.15.2",
-    "openai>=1.99.3,<2",
-    "camel-ai==0.2.76a13",
+    "openai>=1.99.3,<4",
+    "camel-ai==0.2.91a7",
     "pydantic[email]>=2.11.1",
     "click>=8.1.8",
     "fastapi>=0.115.12",
     "fastapi-babel>=1.0.0",
     "fastapi-pagination>=0.12.34",
     "passlib[bcrypt]>=1.7.4",
-    "bcrypt==4.0.1",
+    "bcrypt==5.0.0",
     "pydantic-i18n>=0.4.5",
     "pyjwt>=2.10.1",
     "python-dotenv>=1.1.0",
