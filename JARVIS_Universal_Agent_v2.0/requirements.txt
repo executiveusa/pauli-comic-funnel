@@ -2,8 +2,8 @@
 # © 2025 The Pauli Effect
 
 # Core AI & LLM
-anthropic>=1.4.0
-openai>=3.11.0
+anthropic>=1.5.0
+openai>=3.13.0
 requests>=2.34.2
 
 # Voice Input/Output
