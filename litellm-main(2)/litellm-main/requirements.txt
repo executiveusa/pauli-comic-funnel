@@ -6,31 +6,31 @@ fastapi==0.128.8 # server dep
 starlette==1.6.0 # starlette fastapi dep
 backoff==2.2.1 # server dep
 pyyaml==6.0.3 # server dep
-uvicorn==0.31.1 # server dep
+uvicorn==0.39.0 # server dep
 gunicorn==23.0.0 # server dep
 fastuuid==0.14.0 # for uuid4
-uvloop==0.21.0 # uvicorn dep, gives us much better performance under load
-boto3==1.36.0 # aws bedrock/sagemaker calls
+uvloop==0.22.1 # uvicorn dep, gives us much better performance under load
+boto3==1.42.97 # aws bedrock/sagemaker calls
 redis==8.1.0 # redis caching
-prisma==0.11.0 # for db
+prisma==0.15.0 # for db
 mangum==0.22.0 # for aws lambda functions
 pynacl==1.6.2 # for encrypting keys
 google-cloud-aiplatform==2.1.0 # for vertex ai calls
-google-cloud-iam==2.19.1 # for GCP IAM Redis authentication
-google-genai==2.22.0
-anthropic[vertex]==1.4.0
+google-cloud-iam==2.23.0 # for GCP IAM Redis authentication
+google-genai==2.23.0
+anthropic[vertex]==1.5.0
 mcp==1.30.0 ; python_version >= "3.10"    # for MCP server
 google-generativeai==0.8.6 # for vertex ai calls
 async_generator==1.10.0 # for async ollama calls
 langfuse==2.60.10 # for langfuse self-hosted logging
-prometheus_client==0.20.0 # for /metrics endpoint on proxy
+prometheus_client==0.26.0 # for /metrics endpoint on proxy
 ddtrace==4.14.0      # for advanced DD tracing / profiling
 orjson==3.11.5 # fast /embedding responses
 polars==1.44.2 # for data processing
 apscheduler==3.11.3 # for resetting budget in background
-fastapi-sso==0.16.0 # admin UI, SSO
-pyjwt[crypto]==2.13.0 ; python_version >= "3.9"
-python-multipart==0.0.18 # admin UI
+fastapi-sso==0.20.0 # admin UI, SSO
+pyjwt[crypto]==2.14.0 ; python_version >= "3.9"
+python-multipart==0.0.20 # admin UI
 Pillow==12.3.0
 azure-ai-contentsafety==1.0.0 # for azure content safety
 azure-identity==1.25.3 ; python_version >= "3.9" # for azure content safety
@@ -43,7 +43,7 @@ grpcio>=1.62.3,<1.68.0  # Constraint for opentelemetry-exporter-otlp-proto-grpc 
 sentry_sdk==2.69.1 # for sentry error handling
 detect-secrets==1.5.0 # Enterprise - secret detection / masking in LLM requests
 cryptography==44.0.1
-tzdata==2026.3 # IANA time zone database
+tzdata==2026.4 # IANA time zone database
 litellm-proxy-extras==0.4.9 # for proxy extras - e.g. prisma migrations
 ### LITELLM PACKAGE DEPENDENCIES
 python-dotenv==1.2.1 # for env
@@ -51,7 +51,7 @@ tiktoken==0.14.0 # for calculating usage
 importlib-metadata==7.1.0 # for random utils
 tokenizers==0.22.2 # for calculating usage
 click==8.1.8 # for proxy cli
-rich==13.7.1 # for litellm proxy cli
+rich==15.0.0 # for litellm proxy cli
 jinja2==3.1.6 # for prompt templates
 aiohttp==3.13.5 # for network calls
 aioboto3==15.5.0 # for async sagemaker calls
@@ -59,7 +59,7 @@ tenacity==9.1.4  # for retrying requests, when litellm.num_retries set
 pydantic>=2.11,<3 # proxy + openai req. + mcp
 jsonschema==4.25.1 # validating json schema
 websockets==15.0.1 # for realtime API
-soundfile==0.12.1 # for audio file processing
+soundfile==0.13.1 # for audio file processing
 
 ########################
 # LITELLM ENTERPRISE DEPENDENCIES
