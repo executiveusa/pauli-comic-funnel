@@ -5,7 +5,7 @@ description = ""
 requires-python = ">=3.10,<3.12"
 dependencies = [
     "crewai>=0.152.0",
-    "python-dotenv==1.0.0",
+    "python-dotenv==1.2.3",
 ]
 
 [tool.pyright]
