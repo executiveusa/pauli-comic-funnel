@@ -8,18 +8,18 @@ dependencies = [
     "camel-ai[eigent] @ git+https://github.com/camel-ai/camel.git@feature/workforce-configurable-fail-handling",
     "fastapi>=0.141.1",
     "fastapi-babel>=1.0.0",
-    "uvicorn[standard]>=0.52.4",
+    "uvicorn[standard]>=0.53.0",
     "pydantic-i18n>=0.4.5",
     "python-dotenv>=1.2.3",
     "httpx[socks]>=0.28.1",
     "pydash>=8.1.0",
     "inflection>=0.5.1",
     "aiofiles>=25.1.0",
-    "openai>=3.11.0,<4",
+    "openai>=3.16.2,<4",
     "traceroot>=0.0.7",
     "nodejs-wheel>=24.19.0",
     "numpy>=2.2.6,<3.0.0",
-    "debugpy>=1.8.21",
+    "debugpy>=1.8.22",
 ]
 
 
