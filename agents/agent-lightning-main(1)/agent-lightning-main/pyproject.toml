@@ -18,7 +18,7 @@ dependencies = [
   "opentelemetry-api>=1.44.0",
   "opentelemetry-sdk>=1.44.0",
   "opentelemetry-exporter-otlp>=1.44.0",
-  "litellm[proxy]>=1.100.1",
+  "litellm[proxy]>=1.102.0",
   "pydantic>=2.13.5",
   "openai",
   "rich",
@@ -34,7 +34,7 @@ apo = [
 # It's not recommended to use agentlightning[verl] to install VERL and its dependencies.
 # though it's listed here for completeness.
 verl = [
-  "verl>=0.9.0",
+  "verl>=0.9.1",
   "vllm>=0.29.0", # Due to interface change of ExternalZeroMQDistributedExecutor
 ]
 
@@ -78,7 +78,7 @@ core-legacy = [
 ]
 core-stable = [
   "agentops>=0.4.21",
-  "openai>=3.11.0",
+  "openai>=3.16.2",
 ]
 
 # For PyTorch.
@@ -104,7 +104,7 @@ torch-stable = [
   # Similar issues with vLLM 0.11.2
   "vllm!=0.11.1,!=0.11.2,>=0.29.0",
   # LiteLLM can then be upgraded with new vLLM
-  "litellm[proxy]>=1.100.1",
+  "litellm[proxy]>=1.102.0",
 ]
 torch-legacy = [
   {include-group = "core-legacy"},
@@ -115,7 +115,7 @@ torch-legacy = [
   "tokenizers>=0.23.2,<0.24",
   "flash-attn==2.8.3.post1",
   "vllm==0.29.0",
-  "litellm[proxy]==1.100.1",
+  "litellm[proxy]==1.102.0",
 ]
 
 # Flash-attention must build with CUDA toolkit.
@@ -125,14 +125,14 @@ torch-gpu-stable = [
   {include-group = "torch-cu128"},
   "flash-attn>=2.8.3.post1",
   "tensordict>=0.14.2",
-  "verl>=0.9.0",
+  "verl>=0.9.1",
 ]
 # Use this instead of --group torch-legacy --group torch-gpu
 torch-gpu-legacy = [
   {include-group = "torch-legacy"},
   {include-group = "torch-cu128"},
   "flash-attn==2.8.3.post1",
-  "verl==0.9.0",
+  "verl==0.9.1",
 ]
 
 # For the TRL/Unsloth example.
@@ -140,8 +140,8 @@ trl = [
   # Only work with PyTorch 2.8.0+.
   {include-group = "torch-stable"},
   # https://github.com/unslothai/unsloth/issues/3451
-  "unsloth!=2025.10.2,!=2025.10.3,!=2025.10.4,!=2025.10.5,!=2025.10.6,!=2025.10.7,!=2025.10.8,>=2026.9.4",
-  "unsloth_zoo!=2025.10.2,!=2025.10.3,!=2025.10.4,!=2025.10.5,!=2025.10.6,!=2025.10.7,!=2025.10.8,>=2026.9.3",
+  "unsloth!=2025.10.2,!=2025.10.3,!=2025.10.4,!=2025.10.5,!=2025.10.6,!=2025.10.7,!=2025.10.8,>=2026.9.7",
+  "unsloth_zoo!=2025.10.2,!=2025.10.3,!=2025.10.4,!=2025.10.5,!=2025.10.6,!=2025.10.7,!=2025.10.8,>=2026.9.6",
   "bitsandbytes",
   "peft",
   "datasets",
@@ -192,7 +192,7 @@ sql = [
 ]
 crewai = [
   # https://github.com/crewAIInc/crewAI/issues/3959
-  "crewai[tools]==1.15.21",
+  "crewai[tools]==1.15.22",
 ]
 
 # Summarize into large installable groups.
