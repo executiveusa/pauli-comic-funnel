@@ -3,12 +3,12 @@
 
 # Core
 agentlightning>=1.0.1
-openai>=3.11.0
-anthropic>=1.4.0
+openai>=3.16.2
+anthropic>=1.7.0
 google-generativeai>=0.8.6
 
 # LiteLLM for unified gateway
-litellm>=1.100.1
+litellm>=1.102.0
 
 # Async support
 asyncio
@@ -25,4 +25,4 @@ opentelemetry-sdk>=1.44.0
 redis>=8.1.0
 
 # Optional: Playwright for browser automation
-playwright>=1.62.0
+playwright>=1.63.0
