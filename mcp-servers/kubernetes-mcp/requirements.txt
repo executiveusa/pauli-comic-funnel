@@ -1,4 +1,4 @@
-fastmcp>=4.0.3
+fastmcp>=4.0.5
 kubernetes>=36.0.3
 pydantic>=2.13.5
 pyyaml>=6.0.3
