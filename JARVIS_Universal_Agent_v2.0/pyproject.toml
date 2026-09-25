@@ -34,8 +34,8 @@ classifiers = [
 
 dependencies = [
     # Core AI & LLM
-    "anthropic>=1.4.0",
-    "openai>=3.11.0",
+    "anthropic>=1.7.0",
+    "openai>=3.16.2",
     "requests>=2.34.2",
     
     # Voice Input/Output
@@ -45,7 +45,7 @@ dependencies = [
     "pyaudio>=0.2.14",
     
     # Browser & System Automation
-    "playwright>=1.62.0",
+    "playwright>=1.63.0",
     "pyautogui>=0.9.54",
     "psutil>=7.2.2",
     
@@ -65,11 +65,11 @@ dev = [
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
     "black>=26.5.1",
-    "ruff>=0.16.6",
+    "ruff>=0.16.8",
     "mypy>=2.3.1",
 ]
 premium = [
-    "elevenlabs>=2.67.0",  # Premium TTS
+    "elevenlabs>=2.68.0",  # Premium TTS
     "opencv-python>=5.0.0.93",  # Computer vision
 ]
 extras = [
@@ -93,7 +93,7 @@ dev-dependencies = [
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
     "black>=26.5.1",
-    "ruff>=0.16.6",
+    "ruff>=0.16.8",
 ]
 
 [tool.black]
