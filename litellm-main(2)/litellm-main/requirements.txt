@@ -29,7 +29,7 @@ orjson==3.11.5 # fast /embedding responses
 polars==1.44.2 # for data processing
 apscheduler==3.11.3 # for resetting budget in background
 fastapi-sso==0.16.0 # admin UI, SSO
-pyjwt[crypto]==2.13.0 ; python_version >= "3.9"
+pyjwt[crypto]==2.14.0 ; python_version >= "3.9"
 python-multipart==0.0.18 # admin UI
 Pillow==12.3.0
 azure-ai-contentsafety==1.0.0 # for azure content safety
