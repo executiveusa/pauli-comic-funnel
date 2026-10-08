@@ -1,4 +1,4 @@
 langchain-exa==1.1.0
-exa_py==2.20.0
-python-dotenv==1.2.3
+exa_py==2.25.0
+python-dotenv==1.2.4
 crewai==0.130.0
