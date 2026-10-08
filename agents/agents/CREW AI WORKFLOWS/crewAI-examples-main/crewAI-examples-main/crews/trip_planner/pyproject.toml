@@ -9,7 +9,7 @@ dependencies = [
     "unstructured==0.18.32",
     "pyowm==3.5.0",
     "tools>=0.1.9",
-    "python-dotenv==1.2.3",
+    "python-dotenv==1.2.4",
 ]
 
 [tool.pyright]
