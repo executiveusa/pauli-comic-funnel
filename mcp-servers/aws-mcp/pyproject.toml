@@ -24,19 +24,19 @@ classifiers = [
 ]
 
 dependencies = [
-    "mcp>=2.2.0",
-    "boto3>=1.43.91",
-    "starlette>=1.6.0",
-    "uvicorn>=0.52.4",
+    "mcp>=2.3.0",
+    "boto3>=1.43.108",
+    "starlette>=1.7.0",
+    "uvicorn>=0.54.0",
     "pydantic>=2.13.5",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=9.1.1",
-    "black>=26.5.1",
-    "isort>=9.0.1",
-    "mypy>=2.3.1",
+    "black>=26.10.0",
+    "isort>=9.0.2",
+    "mypy>=2.4.0",
     "moto>=5.2.3"
 ]
 
