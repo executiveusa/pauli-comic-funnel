@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "commander": "^15.0.0",
-    "ora": "^9.4.1",
+    "ora": "^10.0.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
